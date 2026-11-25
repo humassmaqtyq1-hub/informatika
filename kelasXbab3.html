@@ -1,484 +1,976 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelas X Bab 3: Jaringan Komputer - Informatika SMA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f8fafc; color: #0f172a; }
-        .glass-nav { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); }
-        @keyframes packetMove {
-            to { stroke-dashoffset: -36; }
-        }
-        .net-line { stroke-dasharray: 6 6; animation: packetMove 1.2s linear infinite; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelas X Bab 3: Jaringan Komputer & Internet — Informatika SMA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    @keyframes packetFlow {
+      0% { stroke-dashoffset: 24; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .animate-flow {
+      stroke-dasharray: 6 6;
+      animation: packetFlow 0.8s linear infinite;
+    }
+    .device-card {
+      transition: all 0.25s ease;
+    }
+    .device-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.15);
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+    }
+  </style>
 </head>
-<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+<body class="min-h-screen flex flex-col">
 
-    <!-- ==================== NAVIGASI ATAS ==================== -->
-    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 border-b border-slate-200/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-3">
-                    <a href="index.html?kelas=X" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 text-xs sm:text-sm font-bold transition">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        <span>Daftar Bab</span>
-                    </a>
-                    <div class="hidden sm:block">
-                        <span class="font-display font-bold text-slate-900 block leading-none">Kelas X • Bab 3</span>
-                        <span class="text-xs text-indigo-600 font-semibold">Jaringan Komputer & Internet</span>
-                    </div>
-                </div>
+  <!-- Top Navbar -->
+  <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-indigo-600 transition">
+        <span class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">←</span>
+        <span>Kembali ke Daftar Bab</span>
+      </a>
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-extrabold">KELAS X • BAB 3</span>
+        <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition">
+          Cetak Materi
+        </button>
+      </div>
+    </div>
+  </header>
 
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="#sub-a" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition">A. Mengenal Jaringan</a>
-                    <a href="#hardware-net" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition">Perangkat Jaringan</a>
-                    <a href="#sub-b" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition">B. Koneksi Internet</a>
-                    <a href="#catatan" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition">Ringkasan Catatan</a>
-                    <a href="#kuis" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition">Kuis Evaluasi</a>
-                </div>
+  <!-- Hero Header -->
+  <section class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white py-12 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-indigo-200 text-xs font-bold mb-4 border border-white/10">
+        INFORMATIKA FASE E • ELEMEN JARINGAN KOMPUTER & INTERNET
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
+        Jaringan Komputer & Koneksi Internet
+      </h1>
+      <p class="text-indigo-100 text-sm sm:text-base max-w-3xl leading-relaxed">
+        Memahami konsep jaringan lokal hingga global, mengenal bentuk fisik serta fungsi perangkat keras jaringan, dan mensimulasikan bagaimana komputer terhubung ke internet.
+      </p>
+    </div>
+  </section>
 
-                <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium transition cursor-pointer">
-                    <i data-lucide="printer" class="w-4 h-4"></i>
-                    <span>Cetak / PDF</span>
-                </button>
-            </div>
+  <!-- Main Content -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-10 space-y-12">
+
+    <!-- BAGIAN A: MENGENAL JARINGAN KOMPUTER -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm">A</span>
+        <div>
+          <p class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Sub-Materi 1</p>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">Mengenal Jaringan Komputer</h2>
         </div>
-    </nav>
+      </div>
 
-    <!-- ==================== HERO SECTION ==================== -->
-    <header class="pt-28 pb-16 bg-gradient-to-b from-indigo-50/90 via-white to-slate-50 border-b border-slate-200/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-xs sm:text-sm font-bold mb-5">
-                    Informatika Kelas X • Bab 3
-                </div>
-                <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-5">
-                    Jaringan Komputer & <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Koneksi Internet</span>
-                </h1>
-                <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-                    Bagaimana dua komputer di ruangan berbeda bisa berbagi file tanpa flashdisk, dan bagaimana ponselmu bisa membuka situs web di server luar negeri dalam hitungan milidetik? Mari eksplorasi konsep jaringan komputer dan internet!
-                </p>
-            </div>
-        </div>
-    </header>
+      <p class="text-sm text-slate-600 leading-relaxed mb-6">
+        <strong>Jaringan komputer</strong> adalah sekumpulan dua atau lebih perangkat komputer yang saling terhubung melalui media transmisi (kabel maupun nirkabel) untuk berbagi data, informasi, serta sumber daya perangkat keras seperti printer dan koneksi internet.
+      </p>
 
-    <!-- ==================== SUB-BAB A: MENGENAL JARINGAN KOMPUTER ==================== -->
-    <section id="sub-a" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-10">
-            <span class="text-indigo-600 font-bold uppercase text-xs tracking-wider">Sub-Materi A</span>
-            <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 mt-1">Mengenal Jaringan Komputer (PAN, LAN, MAN, WAN)</h2>
-            <p class="text-slate-600 mt-2">Jaringan komputer adalah dua atau lebih perangkat komputasi yang saling terhubung melalui media kabel maupun nirkabel (wireless) untuk bertukar data dan berbagi sumber daya.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-bold">Jarak 1–10 Meter</span>
-                <h3 class="font-display text-xl font-bold text-slate-900 mt-3 mb-2">1. PAN (Personal Area Network)</h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-4">Jaringan pribadi antar perangkat milik satu orang dalam jarak sangat dekat menggunakan Bluetooth atau kabel USB.</p>
-                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
-                    <strong>Contoh:</strong> Menghubungkan HP ke TWS/Earphone Bluetooth atau Smartwatch.
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">1 Gedung / Sekolah</span>
-                <h3 class="font-display text-xl font-bold text-slate-900 mt-3 mb-2">2. LAN (Local Area Network)</h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-4">Jaringan lokal yang mencakup area terbatas seperti satu ruang laboratorium komputer, rumah, atau gedung sekolah.</p>
-                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
-                    <strong>Contoh:</strong> 30 komputer di Lab Informatika SMA terhubung ke satu Switch & Printer bersama.
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold">Antar Wilayah / Kota</span>
-                <h3 class="font-display text-xl font-bold text-slate-900 mt-3 mb-2">3. MAN (Metropolitan Area Network)</h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-4">Gabungan beberapa LAN dalam satu wilayah perkotaan (jangkauan 10–50 km) menggunakan serat optik berkecepatan tinggi.</p>
-                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
-                    <strong>Contoh:</strong> Jaringan antar kantor cabang bank atau dinas pemerintahan dalam satu kota.
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">Antar Negara / Benua</span>
-                <h3 class="font-display text-xl font-bold text-slate-900 mt-3 mb-2">4. WAN (Wide Area Network)</h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-4">Jaringan skala raksasa yang menghubungkan jaringan antar pulau, negara, dan benua melalui kabel laut maupun satelit.</p>
-                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
-                    <strong>Contoh:</strong> Internet global yang menghubungkan server di Amerika dengan ponselmu di Indonesia.
-                </div>
-            </div>
+      <!-- Klasifikasi Cakupan Geografis -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-100">
+          <span class="px-2.5 py-0.5 rounded-md bg-indigo-600 text-white text-xs font-extrabold">LAN</span>
+          <h3 class="font-extrabold text-slate-900 mt-3 mb-1">Local Area Network</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-2">
+            Mencakup area sempit seperti satu ruangan lab komputer, satu gedung sekolah, atau rumah. Kecepatan transfer sangat tinggi (100 Mbps – 10 Gbps).
+          </p>
+          <p class="text-[11px] font-semibold text-indigo-700">Contoh: Jaringan Lab Komputer SMA.</p>
         </div>
 
-        <!-- Perbandingan Intranet vs Internet & Manfaat Jaringan -->
-        <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-sm">
-                <h3 class="font-display text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <i data-lucide="shield-check" class="w-5 h-5 text-indigo-600"></i>
-                    Perbedaan Intranet vs. Internet
-                </h3>
-                <div class="space-y-3 text-sm text-slate-600">
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                        <strong class="text-slate-900 block mb-1">1. Intranet (Jaringan Internal Tertutup)</strong>
-                        Jaringan privat milik organisasi atau sekolah yang hanya dapat diakses oleh warga internal (guru/siswa) di lingkungan sekolah. Contoh: Sistem ujian CBT lokal sekolah tanpa kuota internet.
-                    </div>
-                    <div class="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200/80">
-                        <strong class="text-indigo-950 block mb-1">2. Internet (Interconnected Network)</strong>
-                        Jaringan publik global yang menghubungkan jutaan jaringan komputer di seluruh dunia menggunakan standar protokol <strong>TCP/IP</strong>.
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-sm">
-                <h3 class="font-display text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <i data-lucide="share-2" class="w-5 h-5 text-emerald-600"></i>
-                    Manfaat Utama Jaringan Komputer
-                </h3>
-                <ul class="space-y-2.5 text-sm text-slate-600">
-                    <li class="flex items-start gap-2.5">
-                        <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-xs mt-0.5">1</span>
-                        <span><strong>Berbagi Sumber Daya (Resource Sharing):</strong> Satu printer atau satu koneksi internet dapat dipakai bersama oleh 30 komputer di laboratorium.</span>
-                    </li>
-                    <li class="flex items-start gap-2.5">
-                        <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-xs mt-0.5">2</span>
-                        <span><strong>Pertukaran Data Cepat (File Sharing):</strong> Mengirim tugas, gambar, atau video antarperangkat tanpa perlu memindahkan flashdisk secara fisik.</span>
-                    </li>
-                    <li class="flex items-start gap-2.5">
-                        <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-xs mt-0.5">3</span>
-                        <span><strong>Komunikasi & Kolaborasi Real-Time:</strong> Mendukung panggilan video, pesan instan, dan pengerjaan dokumen bersama secara daring.</span>
-                    </li>
-                </ul>
-            </div>
+        <div class="p-5 rounded-2xl bg-sky-50/70 border border-sky-100">
+          <span class="px-2.5 py-0.5 rounded-md bg-sky-600 text-white text-xs font-extrabold">MAN</span>
+          <h3 class="font-extrabold text-slate-900 mt-3 mb-1">Metropolitan Area Network</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-2">
+            Menghubungkan beberapa jaringan LAN dalam satu wilayah kota atau kabupaten (radius 10–50 km), biasanya memakai kabel fiber optik.
+          </p>
+          <p class="text-[11px] font-semibold text-sky-700">Contoh: Jaringan antar-kantor dinas dalam satu kota.</p>
         </div>
+
+        <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-100">
+          <span class="px-2.5 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-extrabold">WAN</span>
+          <h3 class="font-extrabold text-slate-900 mt-3 mb-1">Wide Area Network</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-2">
+            Mencakup wilayah geografis sangat luas antar-pulau, negara, hingga benua menggunakan kabel bawah laut dan satelit. Internet adalah WAN terbesar.
+          </p>
+          <p class="text-[11px] font-semibold text-emerald-700">Contoh: Jaringan Internet Global.</p>
+        </div>
+      </div>
+
+      <!-- Tabel Perbandingan Intranet vs Internet -->
+      <div class="overflow-x-auto rounded-2xl border border-slate-200">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-100 text-slate-800 font-bold">
+              <th class="p-3.5 border-b border-slate-200">Aspek Pembanding</th>
+              <th class="p-3.5 border-b border-slate-200">Intranet</th>
+              <th class="p-3.5 border-b border-slate-200">Internet</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-600">
+            <tr>
+              <td class="p-3.5 font-semibold text-slate-800">Sifat Akses</td>
+              <td class="p-3.5">Privat / terbatas hanya untuk anggota organisasi atau sekolah.</td>
+              <td class="p-3.5">Publik / terbuka untuk siapa saja di seluruh dunia.</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-semibold text-slate-800">Keamanan</td>
+              <td class="p-3.5">Lebih terkontrol karena tidak dapat diakses bebas dari luar.</td>
+              <td class="p-3.5">Memerlukan keamanan ekstra (Firewall, Enkripsi HTTPS, Password).</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-semibold text-slate-800">Contoh Penerapan</td>
+              <td class="p-3.5">Server ujian lokal CBT sekolah tanpa kuota internet.</td>
+              <td class="p-3.5">Membuka portal belajar, email, mesin pencari, dan YouTube.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    <!-- ==================== PERKENALAN PERANGKAT KERAS JARINGAN ==================== -->
-    <section id="hardware-net" class="py-16 bg-indigo-50/50 border-y border-slate-200/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-10">
-                <span class="text-indigo-600 font-bold uppercase text-xs tracking-wider">Perangkat Keras & Media Transmisi</span>
-                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 mt-1">Mengenal Perangkat Keras Jaringan Komputer</h2>
-                <p class="text-slate-600 mt-2 max-w-3xl">Agar komputer dapat saling terhubung dan bertukar data, dibutuhkan komponen perangkat keras (hardware) jaringan serta media penghantar sinyal berikut ini:</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- 1. NIC -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4">
-                        <i data-lucide="cpu" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display text-lg font-bold text-slate-900 mb-1.5">1. NIC (Network Interface Card)</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-                        Kartu jaringan (LAN Card atau Wi-Fi Card) yang terpasang di dalam komputer/laptop sebagai gerbang keluar-masuk data. Setiap NIC memiliki alamat fisik unik bernama <strong>MAC Address</strong>.
-                    </p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                        <strong>Analogi:</strong> Seperti pintu gerbang rumah lengkap dengan nomor alamat unik yang tidak dimiliki rumah lain.
-                    </div>
-                </div>
-
-                <!-- 2. Kabel Jaringan -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4">
-                        <i data-lucide="cable" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display text-lg font-bold text-slate-900 mb-1.5">2. Kabel Jaringan (UTP & Fiber Optic)</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-                        <strong>Kabel UTP (konektor RJ-45):</strong> Kabel tembaga standar untuk jaringan LAN di sekolah/kantor (maks. 100 meter).<br>
-                        <strong>Fiber Optic:</strong> Kabel serat kaca yang menghantarkan data menggunakan pulsa cahaya berkecepatan sangat tinggi untuk jarak jauh.
-                    </p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                        <strong>Analogi:</strong> Pipa air (UTP = pipa perumahan, Fiber Optic = saluran pipa induk bertekanan tinggi).
-                    </div>
-                </div>
-
-                <!-- 3. Switch -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
-                        <i data-lucide="network" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display text-lg font-bold text-slate-900 mb-1.5">3. Switch (Penghubung Lokal)</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-                        Perangkat dengan banyak port RJ-45 yang menghubungkan puluhan komputer dalam satu jaringan LAN agar saling berkomunikasi tanpa tabrakan data.
-                    </p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                        <strong>Analogi:</strong> Petugas resepsionis kantor yang meneruskan paket langsung ke meja karyawan tujuan yang tepat.
-                    </div>
-                </div>
-
-                <!-- 4. Access Point -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4">
-                        <i data-lucide="wifi" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display text-lg font-bold text-slate-900 mb-1.5">4. Access Point (Pemancar Wi-Fi)</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-                        Perangkat nirkabel yang memancarkan gelombang radio <strong>Wi-Fi (Wireless Fidelity)</strong> sehingga HP dan laptop bisa terhubung ke jaringan tanpa kabel.
-                    </p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                        <strong>Analogi:</strong> Pemancar radio sekolah yang menyiarkan gelombang suara ke seluruh area kelas.
-                    </div>
-                </div>
-
-                <!-- 5. Router -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
-                        <i data-lucide="route" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display text-lg font-bold text-slate-900 mb-1.5">5. Router (Pengatur Rute Jaringan)</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-                        Menghubungkan jaringan lokal (LAN) dengan jaringan luar (Internet) serta memilihkan jalur tercepat bagi setiap paket data berdasarkan <strong>IP Address</strong>.
-                    </p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                        <strong>Analogi:</strong> Polisi lalu lintas di persimpangan jalan raya yang mengarahkan kendaraan menuju kota tujuan.
-                    </div>
-                </div>
-
-                <!-- 6. Modem / ONT -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center mb-4">
-                        <i data-lucide="radio-tower" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-display text-lg font-bold text-slate-900 mb-1.5">6. Modem / ONT (Modulator Demodulator)</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-                        Mengubah sinyal komunikasi dari penyedia layanan internet (ISP)—baik sinyal optik maupun seluler—menjadi sinyal digital yang dipahami komputer, dan sebaliknya.
-                    </p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                        <strong>Analogi:</strong> Penerjemah bahasa asing yang menerjemahkan pesan dari luar negeri ke bahasa lokal kita.
-                    </div>
-                </div>
-            </div>
+    <!-- BAGIAN B: GALERI BENTUK FISIK & FUNGSI PERANGKAT KERAS JARINGAN -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm">B</span>
+        <div>
+          <p class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Perangkat Keras Jaringan</p>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">Mengenal Bentuk Fisik & Fungsi Alat Jaringan</h2>
         </div>
+      </div>
+      <p class="text-sm text-slate-600 mb-6">
+        Perhatikan bentuk visual dan fungsi masing-masing perangkat berikut untuk dicatat di buku catatan Informatika:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. NIC / LAN Card -->
+        <div class="device-card rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4 flex items-center justify-center h-36">
+            <svg viewBox="0 0 220 120" class="w-full h-full">
+              <rect x="25" y="12" width="8" height="96" rx="2" fill="#94a3b8"/>
+              <rect x="18" y="12" width="15" height="6" rx="1" fill="#64748b"/>
+              <rect x="33" y="34" width="24" height="28" rx="2" fill="#334155"/>
+              <rect x="36" y="39" width="14" height="18" fill="#0f172a"/>
+              <circle cx="38" cy="37" r="2" fill="#22c55e"/>
+              <circle cx="38" cy="59" r="2" fill="#f59e0b"/>
+              <rect x="57" y="22" width="130" height="68" rx="4" fill="#15803d"/>
+              <rect x="95" y="40" width="34" height="32" rx="3" fill="#1e293b"/>
+              <text x="112" y="59" text-anchor="middle" fill="#cbd5e1" font-size="7" font-family="monospace">REALTEK</text>
+              <rect x="75" y="90" width="95" height="10" rx="1" fill="#eab308"/>
+              <line x1="80" y1="90" x2="80" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="90" y1="90" x2="90" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="100" y1="90" x2="100" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="110" y1="90" x2="110" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="130" y1="90" x2="130" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="140" y1="90" x2="140" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="150" y1="90" x2="150" y2="100" stroke="#a16207" stroke-width="2"/>
+              <line x1="160" y1="90" x2="160" y2="100" stroke="#a16207" stroke-width="2"/>
+            </svg>
+          </div>
+          <span class="text-[11px] font-extrabold text-indigo-600 uppercase">1. Kartu Jaringan</span>
+          <h3 class="text-base font-extrabold text-slate-900 mb-1.5">NIC (Network Interface Card)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-3 flex-1">
+            Komponen perangkat keras pada komputer/laptop yang menjadi pintu masuk dan keluar data jaringan. Memiliki identitas fisik unik permanen bernama <strong>MAC Address</strong>.
+          </p>
+          <div class="bg-indigo-50 rounded-lg p-2.5 text-[11px] text-indigo-800">
+            <strong>Analogi:</strong> Nomor NIK pada KTP yang membedakan satu perangkat dengan perangkat lainnya.
+          </div>
+        </div>
+
+        <!-- 2. Kabel UTP & Konektor RJ-45 -->
+        <div class="device-card rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4 flex items-center justify-center h-36">
+            <svg viewBox="0 0 220 120" class="w-full h-full">
+              <path d="M15 75 Q 65 75, 95 60" stroke="#2563eb" stroke-width="14" fill="none" stroke-linecap="round"/>
+              <polygon points="88,49 112,47 112,73 88,71" fill="#1d4ed8"/>
+              <rect x="112" y="44" width="46" height="32" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+              <path d="M120 44 L145 36 L150 40 L132 44" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+              <rect x="150" y="48" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="51" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="54" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="57" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="60" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="63" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="66" width="8" height="2" fill="#f59e0b"/>
+              <rect x="150" y="69" width="8" height="2" fill="#f59e0b"/>
+              <line x1="115" y1="50" x2="148" y2="50" stroke="#f97316" stroke-width="2"/>
+              <line x1="115" y1="54" x2="148" y2="54" stroke="#22c55e" stroke-width="2"/>
+              <line x1="115" y1="58" x2="148" y2="58" stroke="#3b82f6" stroke-width="2"/>
+              <line x1="115" y1="62" x2="148" y2="62" stroke="#92400e" stroke-width="2"/>
+              <text x="110" y="102" text-anchor="middle" fill="#64748b" font-size="9" font-weight="bold">Kabel UTP + Konektor RJ-45</text>
+            </svg>
+          </div>
+          <span class="text-[11px] font-extrabold text-indigo-600 uppercase">2. Media Transmisi Kabel</span>
+          <h3 class="text-base font-extrabold text-slate-900 mb-1.5">Kabel UTP (RJ-45) & Fiber Optik</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-3 flex-1">
+            <strong>Kabel UTP</strong> berisi 8 kabel tembaga terpilin dengan kepala <strong>RJ-45</strong> (maksimal 100 meter). <strong>Fiber Optik</strong> memakai serat kaca dan pulsa cahaya untuk jarak jauh berkecepatan tinggi.
+          </p>
+          <div class="bg-indigo-50 rounded-lg p-2.5 text-[11px] text-indigo-800">
+            <strong>Analogi:</strong> Jalan raya atau pipa air tempat data mengalir dari satu titik ke titik lain.
+          </div>
+        </div>
+
+        <!-- 3. Switch -->
+        <div class="device-card rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4 flex items-center justify-center h-36">
+            <svg viewBox="0 0 220 120" class="w-full h-full">
+              <rect x="20" y="38" width="180" height="44" rx="5" fill="#1e293b"/>
+              <rect x="24" y="42" width="172" height="36" rx="3" fill="#0f172a"/>
+              <g fill="#334155" stroke="#64748b" stroke-width="1">
+                <rect x="34" y="52" width="14" height="14" rx="1"/>
+                <rect x="52" y="52" width="14" height="14" rx="1"/>
+                <rect x="70" y="52" width="14" height="14" rx="1"/>
+                <rect x="88" y="52" width="14" height="14" rx="1"/>
+                <rect x="114" y="52" width="14" height="14" rx="1"/>
+                <rect x="132" y="52" width="14" height="14" rx="1"/>
+                <rect x="150" y="52" width="14" height="14" rx="1"/>
+                <rect x="168" y="52" width="14" height="14" rx="1"/>
+              </g>
+              <circle cx="41" cy="47" r="2" fill="#22c55e"/>
+              <circle cx="59" cy="47" r="2" fill="#22c55e"/>
+              <circle cx="77" cy="47" r="2" fill="#eab308"/>
+              <circle cx="95" cy="47" r="2" fill="#22c55e"/>
+              <circle cx="121" cy="47" r="2" fill="#22c55e"/>
+              <circle cx="139" cy="47" r="2" fill="#475569"/>
+              <circle cx="157" cy="47" r="2" fill="#22c55e"/>
+              <circle cx="175" cy="47" r="2" fill="#475569"/>
+              <text x="110" y="102" text-anchor="middle" fill="#64748b" font-size="9" font-weight="bold">Switch 8-Port Ethernet</text>
+            </svg>
+          </div>
+          <span class="text-[11px] font-extrabold text-indigo-600 uppercase">3. Konsentrator Kabel</span>
+          <h3 class="text-base font-extrabold text-slate-900 mb-1.5">Switch</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-3 flex-1">
+            Menghubungkan banyak komputer dalam satu jaringan LAN menggunakan kabel UTP. Switch pintar membaca <strong>MAC Address</strong> sehingga data hanya dikirim ke port komputer tujuan.
+          </p>
+          <div class="bg-indigo-50 rounded-lg p-2.5 text-[11px] text-indigo-800">
+            <strong>Analogi:</strong> Terminal colokan listrik bercabang banyak yang hanya mengalirkan data ke tujuan yang tepat.
+          </div>
+        </div>
+
+        <!-- 4. Wireless Access Point -->
+        <div class="device-card rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4 flex items-center justify-center h-36">
+            <svg viewBox="0 0 220 120" class="w-full h-full">
+              <path d="M85 24 Q110 8 135 24" stroke="#6366f1" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M93 32 Q110 20 127 32" stroke="#6366f1" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <rect x="62" y="25" width="6" height="45" rx="3" fill="#334155"/>
+              <rect x="152" y="25" width="6" height="45" rx="3" fill="#334155"/>
+              <rect x="48" y="65" width="124" height="24" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+              <circle cx="95" cy="77" r="3" fill="#22c55e"/>
+              <circle cx="110" cy="77" r="3" fill="#3b82f6"/>
+              <circle cx="125" cy="77" r="3" fill="#22c55e"/>
+              <text x="110" y="106" text-anchor="middle" fill="#64748b" font-size="9" font-weight="bold">Wireless Access Point (Wi-Fi)</text>
+            </svg>
+          </div>
+          <span class="text-[11px] font-extrabold text-indigo-600 uppercase">4. Pemancar Nirkabel</span>
+          <h3 class="text-base font-extrabold text-slate-900 mb-1.5">Access Point (AP)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-3 flex-1">
+            Mengubah sinyal jaringan kabel menjadi gelombang radio <strong>Wi-Fi</strong> dengan nama jaringan (<strong>SSID</strong>) agar laptop dan smartphone dapat terhubung tanpa kabel.
+          </p>
+          <div class="bg-indigo-50 rounded-lg p-2.5 text-[11px] text-indigo-800">
+            <strong>Analogi:</strong> Pemancar radio lokal di sekolah yang menyiarkan koneksi jaringan ke udara.
+          </div>
+        </div>
+
+        <!-- 5. Router -->
+        <div class="device-card rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4 flex items-center justify-center h-36">
+            <svg viewBox="0 0 220 120" class="w-full h-full">
+              <ellipse cx="110" cy="48" rx="52" ry="16" fill="#4f46e5"/>
+              <rect x="58" y="48" width="104" height="32" fill="#4338ca"/>
+              <ellipse cx="110" cy="80" rx="52" ry="16" fill="#3730a3"/>
+              <path d="M90 48 L103 43 M90 48 L103 53 M90 48 L130 48 M130 48 L117 43 M130 48 L117 53" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <path d="M110 38 L110 58 M110 38 L105 44 M110 38 L115 44 M110 58 L105 52 M110 58 L115 52" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <text x="110" y="108" text-anchor="middle" fill="#64748b" font-size="9" font-weight="bold">Router (Penghubung Antar-Jaringan)</text>
+            </svg>
+          </div>
+          <span class="text-[11px] font-extrabold text-indigo-600 uppercase">5. Pengatur Rute Data</span>
+          <h3 class="text-base font-extrabold text-slate-900 mb-1.5">Router</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-3 flex-1">
+            Menghubungkan dua atau lebih jaringan yang berbeda (misal jaringan lokal sekolah dengan internet), membagikan <strong>IP Address</strong> (DHCP), dan memilih jalur tercepat pengiriman paket data.
+          </p>
+          <div class="bg-indigo-50 rounded-lg p-2.5 text-[11px] text-indigo-800">
+            <strong>Analogi:</strong> Polisi lalu lintas di persimpangan besar yang mengarahkan kendaraan menuju kota tujuan.
+          </div>
+        </div>
+
+        <!-- 6. Modem / ONT -->
+        <div class="device-card rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 mb-4 flex items-center justify-center h-36">
+            <svg viewBox="0 0 220 120" class="w-full h-full">
+              <rect x="65" y="22" width="90" height="68" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+              <circle cx="85" cy="40" r="3" fill="#22c55e"/>
+              <text x="95" y="43" fill="#475569" font-size="7" font-family="sans-serif">POWER</text>
+              <circle cx="85" cy="53" r="3" fill="#22c55e"/>
+              <text x="95" y="56" fill="#475569" font-size="7" font-family="sans-serif">PON / FIBER</text>
+              <circle cx="85" cy="66" r="3" fill="#3b82f6"/>
+              <text x="95" y="69" fill="#475569" font-size="7" font-family="sans-serif">INTERNET</text>
+              <path d="M25 78 L65 78" stroke="#eab308" stroke-width="4" stroke-linecap="round"/>
+              <text x="110" y="106" text-anchor="middle" fill="#64748b" font-size="9" font-weight="bold">Modem / ONT Fiber Optik</text>
+            </svg>
+          </div>
+          <span class="text-[11px] font-extrabold text-indigo-600 uppercase">6. Penerjemah Sinyal ISP</span>
+          <h3 class="text-base font-extrabold text-slate-900 mb-1.5">Modem / ONT</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-3 flex-1">
+            <em>Modulator Demodulator</em>. Mengubah sinyal analog/cahaya dari penyedia layanan internet (<strong>ISP</strong>) menjadi sinyal digital agar dapat dibaca oleh router dan komputer.
+          </p>
+          <div class="bg-indigo-50 rounded-lg p-2.5 text-[11px] text-indigo-800">
+            <strong>Analogi:</strong> Penerjemah bahasa asing yang mengubah bahasa luar negeri menjadi bahasa lokal.
+          </div>
+        </div>
+
+      </div>
     </section>
 
-    <!-- ==================== SUB-BAB B: MENGHUBUNGKAN KOMPUTER DENGAN INTERNET ==================== -->
-    <section id="sub-b" class="py-16 bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-10">
-                <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold uppercase tracking-wider mb-2">Sub-Materi B</span>
-                <h2 class="font-display text-2xl sm:text-4xl font-bold">Bagaimana Komputer Terhubung ke Internet?</h2>
-                <p class="text-slate-400 mt-2 max-w-3xl">
-                    Untuk mengakses internet, perangkat membutuhkan <strong>ISP (Internet Service Provider)</strong>, <strong>IP Address</strong>, dan <strong>DNS (Domain Name System)</strong>. Coba simulasi cara kerja DNS di bawah ini!
-                </p>
-            </div>
-
-            <!-- Visualisasi Alur Koneksi Internet + Simulasi DNS -->
-            <div class="bg-slate-800/80 border border-slate-700 rounded-3xl p-6 sm:p-8">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                    <div class="lg:col-span-7">
-                        <svg viewBox="0 0 460 170" class="w-full h-auto bg-slate-950 rounded-2xl p-3 border border-slate-800">
-                            <!-- Laptop Siswa -->
-                            <rect x="20" y="55" width="80" height="55" rx="10" fill="#4F46E5"/>
-                            <text x="60" y="80" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Laptop Siswa</text>
-                            <text x="60" y="95" text-anchor="middle" fill="#C7D2FE" font-size="8">192.168.1.10</text>
-
-                            <line x1="100" y1="82" x2="175" y2="82" stroke="#38BDF8" stroke-width="3" class="net-line"/>
-
-                            <!-- Router ISP -->
-                            <rect x="175" y="55" width="90" height="55" rx="10" fill="#0284C7"/>
-                            <text x="220" y="80" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Router & ISP</text>
-                            <text x="220" y="95" text-anchor="middle" fill="#BAE6FD" font-size="8">Gerbang Internet</text>
-
-                            <line x1="265" y1="82" x2="340" y2="82" stroke="#10B981" stroke-width="3" class="net-line"/>
-
-                            <!-- Server Web -->
-                            <rect x="340" y="55" width="100" height="55" rx="10" fill="#059669"/>
-                            <text x="390" y="80" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Server Tujuan</text>
-                            <text id="svg-server-ip" x="390" y="95" text-anchor="middle" fill="#A7F3D0" font-size="8">142.250.190.46</text>
-                        </svg>
-                    </div>
-
-                    <!-- Simulasi DNS Lookup Interaktif -->
-                    <div class="lg:col-span-5 bg-slate-900 p-5 rounded-2xl border border-slate-700">
-                        <h3 class="font-display font-bold text-lg text-white mb-2">Simulasi Penerjemah DNS</h3>
-                        <p class="text-xs text-slate-400 mb-3">Manusia mudah menghafal nama domain, sedangkan komputer berkomunikasi lewat angka IP Address. Pilih alamat web untuk diterjemahkan DNS:</p>
-                        <select id="dns-select" onchange="lookupDNS()" class="w-full bg-slate-800 border border-slate-600 rounded-xl px-3.5 py-2.5 text-sm text-white mb-3">
-                            <option value="142.250.190.46">www.google.com</option>
-                            <option value="104.21.48.12">portal.informatika-sma.sch.id</option>
-                            <option value="157.240.241.35">www.instagram.com</option>
-                        </select>
-                        <div class="p-3.5 rounded-xl bg-indigo-950/80 border border-indigo-500/40 text-xs sm:text-sm">
-                            <span class="text-indigo-300 block mb-1">Hasil Terjemahan Server DNS:</span>
-                            <strong id="dns-output" class="text-emerald-400 font-mono text-base">IP Address: 142.250.190.46</strong>
-                        </div>
-                        <p class="text-xs text-amber-300/90 mt-3">
-                            <strong>Analogi:</strong> DNS ibarat aplikasi <em>Kontak Telepon</em> di HP kamu—kamu cukup menekan nama "Budi", lalu HP otomatis menelepon nomor 0812-xxxx-xxxx.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3 Cara Menghubungkan Komputer ke Internet -->
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-800/70 border border-slate-700 p-6 rounded-3xl">
-                    <span class="text-xs font-bold text-sky-400 uppercase">Metode 1 • Koneksi Kabel</span>
-                    <h3 class="font-display text-lg font-bold text-white mt-1 mb-2">Kabel LAN (Ethernet / RJ-45)</h3>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Menghubungkan port LAN komputer langsung ke Router/Switch menggunakan kabel UTP. Kelebihannya koneksi sangat stabil dan minim gangguan sinyal.</p>
-                </div>
-                <div class="bg-slate-800/70 border border-slate-700 p-6 rounded-3xl">
-                    <span class="text-xs font-bold text-indigo-400 uppercase">Metode 2 • Nirkabel</span>
-                    <h3 class="font-display text-lg font-bold text-white mt-1 mb-2">Wi-Fi (Wireless Fidelity)</h3>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Menghubungkan laptop atau ponsel ke Access Point/Router Wi-Fi dengan memilih nama jaringan (<strong>SSID</strong>) dan memasukkan kata sandi (WPA2/WPA3).</p>
-                </div>
-                <div class="bg-slate-800/70 border border-slate-700 p-6 rounded-3xl">
-                    <span class="text-xs font-bold text-emerald-400 uppercase">Metode 3 • Jaringan Seluler</span>
-                    <h3 class="font-display text-lg font-bold text-white mt-1 mb-2">Tethering Smartphone</h3>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Menjadikan ponsel berpaket data 4G/5G sebagai modem portabel untuk berbagi internet ke laptop melalui <strong>Wi-Fi Hotspot, USB, atau Bluetooth</strong>.</p>
-                </div>
-            </div>
+    <!-- BAGIAN C: SIMULASI INTERAKTIF KONEKSI INTERNET -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-emerald-600 text-white font-extrabold flex items-center justify-center text-sm">C</span>
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-emerald-600">Laboratorium Virtual</p>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">Simulasi Menghubungkan Komputer ke Internet</h2>
+          </div>
         </div>
+      </div>
+
+      <p class="text-sm text-slate-600 mb-6">
+        Pilih salah satu jalur koneksi di bawah ini, lalu klik tombol <strong>"Uji Koneksi & Akses Website"</strong> untuk melihat alur perjalanan paket data melewati setiap perangkat keras jaringan:
+      </p>
+
+      <!-- Kontrol Pilihan Metode Koneksi -->
+      <div class="flex flex-wrap items-center gap-3 mb-6 no-print">
+        <button onclick="setConnectionMode('lan')" id="btn-mode-lan" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition bg-indigo-600 text-white border-indigo-600 shadow-sm">
+          1. Kabel LAN (Ethernet Lab)
+        </button>
+        <button onclick="setConnectionMode('wifi')" id="btn-mode-wifi" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition bg-white text-slate-700 border-slate-200 hover:bg-slate-50">
+          2. Nirkabel (Wi-Fi Sekolah)
+        </button>
+        <button onclick="setConnectionMode('tethering')" id="btn-mode-tethering" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition bg-white text-slate-700 border-slate-200 hover:bg-slate-50">
+          3. Tethering Smartphone
+        </button>
+
+        <button onclick="runSimulation()" id="btn-run-sim" class="ml-auto px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 transition shadow">
+          ▶ Uji Koneksi & Akses Website
+        </button>
+      </div>
+
+      <!-- Kanvas Diagram Simulasi SVG -->
+      <div class="bg-slate-900 rounded-2xl p-4 sm:p-6 text-white overflow-x-auto mb-5">
+        <svg id="network-svg" viewBox="0 0 820 220" class="w-full min-w-[680px] h-auto">
+          <line id="line-1" x1="125" y1="105" x2="265" y2="105" stroke="#475569" stroke-width="4" />
+          <line id="line-2" x1="345" y1="105" x2="475" y2="105" stroke="#475569" stroke-width="4" />
+          <line id="line-3" x1="555" y1="105" x2="685" y2="105" stroke="#475569" stroke-width="4" />
+
+          <text id="label-media-1" x="195" y="90" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="monospace">Kabel UTP (RJ-45)</text>
+          <text id="label-media-2" x="410" y="90" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="monospace">Kabel Uplink</text>
+          <text id="label-media-3" x="620" y="90" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="monospace">Fiber Optik ISP</text>
+
+          <g id="node-1">
+            <rect x="35" y="65" width="90" height="80" rx="14" fill="#1e293b" stroke="#6366f1" stroke-width="2.5"/>
+            <text x="80" y="102" text-anchor="middle" fill="white" font-size="22">💻</text>
+            <text x="80" y="124" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">PC Siswa</text>
+            <text id="node1-ip" x="80" y="138" text-anchor="middle" fill="#818cf8" font-size="9" font-family="monospace">192.168.1.15</text>
+          </g>
+
+          <g id="node-2">
+            <rect x="265" y="65" width="80" height="80" rx="14" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+            <text id="node2-icon" x="305" y="102" text-anchor="middle" fill="white" font-size="22">🔌</text>
+            <text id="node2-title" x="305" y="124" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">Switch</text>
+            <text id="node2-sub" x="305" y="138" text-anchor="middle" fill="#94a3b8" font-size="9">Layer 2 LAN</text>
+          </g>
+
+          <g id="node-3">
+            <rect x="475" y="65" width="80" height="80" rx="14" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+            <text id="node3-icon" x="515" y="102" text-anchor="middle" fill="white" font-size="22">📡</text>
+            <text id="node3-title" x="515" y="124" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">Router+Modem</text>
+            <text x="515" y="138" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="monospace">Gateway .1.1</text>
+          </g>
+
+          <g id="node-4">
+            <rect x="685" y="65" width="95" height="80" rx="14" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+            <text x="732" y="102" text-anchor="middle" fill="white" font-size="22">🌐</text>
+            <text x="732" y="124" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold">Web Server</text>
+            <text x="732" y="138" text-anchor="middle" fill="#34d399" font-size="9" font-family="monospace">smaqtyq1.sch.id</text>
+          </g>
+
+          <circle id="packet-dot" cx="80" cy="105" r="8" fill="#10b981" opacity="0" />
+        </svg>
+
+        <!-- Console Log Simulasi -->
+        <div class="mt-3 bg-slate-950 rounded-xl p-4 border border-slate-800 font-mono-code text-xs">
+          <div class="flex items-center justify-between text-slate-400 mb-2 pb-2 border-b border-slate-800">
+            <span>STATUS PROSES KONEKSI & DNS</span>
+            <span id="sim-badge" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px]">SIAP</span>
+          </div>
+          <p id="sim-log" class="text-emerald-400 leading-relaxed">
+            > Klik "Uji Koneksi & Akses Website" untuk memulai simulasi pengiriman paket data...
+          </p>
+        </div>
+      </div>
+
+      <!-- Penjelasan 3 Konsep Penting Koneksi Internet -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <h4 class="font-extrabold text-slate-900 text-sm mb-1">1. IP Address (Alamat Logis)</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Deretan angka unik (contoh IPv4: <code class="bg-slate-200 px-1 rounded">192.168.1.15</code>) yang diberikan otomatis oleh <strong>DHCP Server</strong> pada router agar perangkat dikenali di jaringan.
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <h4 class="font-extrabold text-slate-900 text-sm mb-1">2. DNS (Domain Name System)</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Buku telepon internet yang menerjemahkan nama domain ramah manusia (misal <code class="bg-slate-200 px-1 rounded">informatika.smaqtyq1.sch.id</code>) menjadi alamat IP server tujuan.
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <h4 class="font-extrabold text-slate-900 text-sm mb-1">3. ISP (Internet Service Provider)</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Perusahaan penyedia jasa layanan akses internet (seperti Telkom IndiHome, Biznet, atau operator seluler) yang menghubungkan jaringan lokal ke jaringan internet dunia.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- ==================== RINGKASAN CATATAN SISWA ==================== -->
-    <section id="catatan" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 sm:p-10">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-100">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Panduan Belajar & Buku Catatan</span>
-                    <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Rangkuman Poin Penting untuk Dicatat</h2>
-                </div>
-                <span class="px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">Siap Cetak / Salin</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-700">
-                <div class="space-y-3">
-                    <h3 class="font-bold text-slate-900 text-base">1. Klasifikasi Jaringan Berdasarkan Jangkauan</h3>
-                    <ul class="space-y-2 list-disc pl-5">
-                        <li><strong>PAN:</strong> Jarak personal 1–10 meter (Bluetooth, USB).</li>
-                        <li><strong>LAN:</strong> Jaringan lokal 1 ruangan/gedung (Lab Komputer Sekolah).</li>
-                        <li><strong>MAN:</strong> Jaringan antar gedung dalam 1 kota (10–50 km).</li>
-                        <li><strong>WAN:</strong> Jaringan antar negara/benua (Internet Global).</li>
-                    </ul>
-
-                    <h3 class="font-bold text-slate-900 text-base pt-2">2. Perangkat Keras Utama Jaringan</h3>
-                    <ul class="space-y-2 list-disc pl-5">
-                        <li><strong>NIC:</strong> Kartu jaringan fisik dengan alamat unik MAC Address.</li>
-                        <li><strong>Kabel UTP (RJ-45) & Fiber Optic:</strong> Media penghantar data berkabel.</li>
-                        <li><strong>Switch:</strong> Menghubungkan banyak PC dalam jaringan LAN.</li>
-                        <li><strong>Access Point:</strong> Memancarkan sinyal Wi-Fi nirkabel.</li>
-                        <li><strong>Router & Modem:</strong> Menghubungkan LAN ke ISP/Internet dan mengatur rute IP.</li>
-                    </ul>
-                </div>
-
-                <div class="space-y-3">
-                    <h3 class="font-bold text-slate-900 text-base">3. Komponen Koneksi Internet</h3>
-                    <ul class="space-y-2 list-disc pl-5">
-                        <li><strong>ISP (Internet Service Provider):</strong> Perusahaan penyedia jasa layanan internet (contoh: Telkom IndiHome, Biznet, operator seluler).</li>
-                        <li><strong>IP Address (Internet Protocol):</strong> Alamat angka identitas setiap perangkat di jaringan (contoh: <code>192.168.1.10</code>).</li>
-                        <li><strong>DNS (Domain Name System):</strong> Penerjemah nama domain web menjadi angka IP Address.</li>
-                        <li><strong>SSID:</strong> Nama identitas jaringan Wi-Fi yang dipancarkan oleh Access Point.</li>
-                    </ul>
-
-                    <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-950 text-xs sm:text-sm mt-3">
-                        <strong>Tips Keamanan Internet Dasar:</strong> Hindari memasukkan kata sandi perbankan atau akun penting saat terhubung ke <em>Wi-Fi publik gratis tanpa password</em> karena data rentan disadap.
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- RINGKASAN CATATAN SISWA -->
+    <section class="bg-amber-50/80 rounded-3xl border border-amber-200 p-6 sm:p-8">
+      <h2 class="text-lg sm:text-xl font-extrabold text-amber-950 mb-4 flex items-center gap-2">
+        <span>📝</span> Ringkasan Poin Penting untuk Buku Catatan
+      </h2>
+      <ul class="space-y-2.5 text-xs sm:text-sm text-amber-950/90 list-disc pl-5 leading-relaxed">
+        <li><strong>LAN, MAN, WAN</strong> dibedakan berdasarkan luas jangkauan wilayah geografisnya.</li>
+        <li><strong>MAC Address</strong> bersifat fisik dan permanen tertanam pada NIC, sedangkan <strong>IP Address</strong> bersifat logis dan dapat berubah sesuai jaringan tempat komputer terhubung.</li>
+        <li><strong>Switch</strong> menghubungkan perangkat dalam satu jaringan lokal (LAN), sedangkan <strong>Router</strong> menghubungkan dua jaringan yang berbeda (misalnya LAN sekolah ke Internet).</li>
+        <li><strong>Modem/ONT</strong> bertugas mengubah sinyal analog atau cahaya fiber optik dari ISP menjadi sinyal digital bagi komputer.</li>
+        <li>Urutan dasar menghubungkan PC ke internet: <strong>PC (NIC) → Media (Kabel UTP / Wi-Fi) → Switch / Access Point → Router → Modem → ISP → Internet</strong>.</li>
+      </ul>
     </section>
 
-    <!-- ==================== KUIS EVALUASI ==================== -->
-    <section id="kuis" class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10">
-            <span class="px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-bold uppercase">Uji Pemahaman</span>
-            <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 mt-3">Kuis Jaringan Komputer & Internet</h2>
+    <!-- KUIS EVALUASI MANDIRI (25 SOAL) -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm no-print">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+        <h2 class="text-xl font-extrabold text-slate-900">Kuis Pemahaman Materi (25 Soal)</h2>
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 w-fit">Kelas X • Bab 3</span>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-500 mb-6">Jawab seluruh 25 pertanyaan berikut untuk menguji pemahamanmu tentang jaringan komputer, perangkat keras, dan koneksi internet:</p>
+
+      <div id="quiz-container" class="space-y-5"></div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-slate-200">
+        <div class="flex items-center gap-3">
+          <button onclick="checkQuiz()" class="px-6 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition shadow-sm">
+            Periksa Jawaban
+          </button>
+          <button onclick="resetQuiz()" class="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 text-sm font-bold hover:bg-slate-200 transition">
+            Ulangi Kuis
+          </button>
         </div>
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-8">
-            <div id="quiz-container" class="space-y-6"></div>
-            <div class="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center">
-                <button onclick="resetQuiz()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer">Ulangi</button>
-                <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md cursor-pointer">Periksa Skor</button>
-            </div>
-            <div id="quiz-result" class="hidden mt-6 p-5 rounded-2xl bg-indigo-600 text-white font-bold text-center"></div>
-        </div>
+        <div id="quiz-result" class="text-sm font-extrabold text-slate-800"></div>
+      </div>
     </section>
 
-    <script>
-        function lookupDNS() {
-            const ip = document.getElementById('dns-select').value;
-            document.getElementById('dns-output').textContent = `IP Address: ${ip}`;
-            document.getElementById('svg-server-ip').textContent = ip;
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500">
+    Modul Informatika Kelas X • Bab 3 Jaringan Komputer & Internet
+  </footer>
+
+  <script>
+    // --- SIMULASI JARINGAN ---
+    let currentMode = 'lan';
+    let isRunning = false;
+
+    const modeConfigs = {
+      lan: {
+        media1: "Kabel UTP (RJ-45)",
+        media2: "Kabel Uplink",
+        media3: "Fiber Optik ISP",
+        node2Icon: "🔌",
+        node2Title: "Switch",
+        node2Sub: "8-Port LAN",
+        node3Icon: "📡",
+        node3Title: "Router+Modem",
+        ip: "192.168.1.15",
+        steps: [
+          "[1/4] NIC pada PC Siswa (IP 192.168.1.15) mengirim permintaan akses website melalui Kabel UTP RJ-45 menuju Switch...",
+          "[2/4] Switch membaca MAC Address tujuan dan meneruskan paket data secara akurat ke Router Sekolah...",
+          "[3/4] Router menerjemahkan IP lokal ke IP Publik (NAT) dan Modem/ONT mengubah data digital menjadi pulsa cahaya menuju ISP...",
+          "[4/4] BERHASIL! DNS menerjemahkan smaqtyq1.sch.id → Server merespons dan halaman web tampil di browser siswa."
+        ]
+      },
+      wifi: {
+        media1: "Gelombang Wi-Fi",
+        media2: "Kabel UTP PoE",
+        media3: "Fiber Optik ISP",
+        node2Icon: "📶",
+        node2Title: "Access Point",
+        node2Sub: "SSID: SMAQTYQ1",
+        node3Icon: "📡",
+        node3Title: "Router+Modem",
+        ip: "192.168.10.42",
+        steps: [
+          "[1/4] Wi-Fi Adapter laptop terhubung ke SSID SMAQTYQ1 (WPA2) dan mengirim paket data lewat gelombang radio ke Access Point...",
+          "[2/4] Access Point mengubah sinyal nirkabel menjadi sinyal kabel dan meneruskannya ke Router...",
+          "[3/4] Router meminta DNS Server menerjemahkan nama domain dan meneruskan permintaan lewat Modem Fiber Optik ke ISP...",
+          "[4/4] BERHASIL! Paket data balasan diterima kembali oleh Access Point dan dipancarkan ke laptop siswa."
+        ]
+      },
+      tethering: {
+        media1: "Hotspot / USB",
+        media2: "Sinyal 4G/5G",
+        media3: "Backbone Seluler",
+        node2Icon: "📱",
+        node2Title: "Smartphone",
+        node2Sub: "Router Portabel",
+        node3Icon: "🗼",
+        node3Title: "Menara BTS",
+        ip: "192.168.43.88",
+        steps: [
+          "[1/4] Laptop terhubung ke Hotspot Smartphone. Smartphone berfungsi sekaligus sebagai Access Point, Router, dan Modem seluler...",
+          "[2/4] Smartphone mengirim paket data melalui gelombang seluler 4G/5G menuju Menara BTS operator terdekat...",
+          "[3/4] Menara BTS meneruskan data melalui jaringan serat optik operator seluler (ISP) menuju Server Internet...",
+          "[4/4] BERHASIL! Halaman web berhasil dimuat menggunakan kuota data seluler."
+        ]
+      }
+    };
+
+    function setConnectionMode(mode) {
+      if (isRunning) return;
+      currentMode = mode;
+      const cfg = modeConfigs[mode];
+
+      ['lan', 'wifi', 'tethering'].forEach(m => {
+        const btn = document.getElementById(`btn-mode-${m}`);
+        btn.className = m === mode
+          ? "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition bg-indigo-600 text-white border-indigo-600 shadow-sm"
+          : "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition bg-white text-slate-700 border-slate-200 hover:bg-slate-50";
+      });
+
+      document.getElementById('label-media-1').textContent = cfg.media1;
+      document.getElementById('label-media-2').textContent = cfg.media2;
+      document.getElementById('label-media-3').textContent = cfg.media3;
+      document.getElementById('node2-icon').textContent = cfg.node2Icon;
+      document.getElementById('node2-title').textContent = cfg.node2Title;
+      document.getElementById('node2-sub').textContent = cfg.node2Sub;
+      document.getElementById('node3-icon').textContent = cfg.node3Icon;
+      document.getElementById('node3-title').textContent = cfg.node3Title;
+      document.getElementById('node1-ip').textContent = cfg.ip;
+
+      resetDiagram();
+      document.getElementById('sim-log').textContent = `> Mode koneksi diubah ke ${cfg.node2Title}. Klik "Uji Koneksi & Akses Website".`;
+    }
+
+    function resetDiagram() {
+      ['line-1', 'line-2', 'line-3'].forEach(id => {
+        const el = document.getElementById(id);
+        el.setAttribute('stroke', '#475569');
+        el.classList.remove('animate-flow');
+      });
+      ['node-2', 'node-3', 'node-4'].forEach(id => {
+        document.getElementById(id).querySelector('rect').setAttribute('stroke', '#475569');
+      });
+      const dot = document.getElementById('packet-dot');
+      dot.setAttribute('opacity', '0');
+      dot.setAttribute('cx', '80');
+      document.getElementById('sim-badge').textContent = 'SIAP';
+      document.getElementById('sim-badge').className = 'px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px]';
+    }
+
+    function runSimulation() {
+      if (isRunning) return;
+      isRunning = true;
+      resetDiagram();
+
+      const cfg = modeConfigs[currentMode];
+      const logEl = document.getElementById('sim-log');
+      const badgeEl = document.getElementById('sim-badge');
+      const dot = document.getElementById('packet-dot');
+
+      badgeEl.textContent = 'MENGIRIM DATA...';
+      badgeEl.className = 'px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]';
+      dot.setAttribute('opacity', '1');
+
+      logEl.textContent = `> ${cfg.steps[0]}`;
+      document.getElementById('line-1').setAttribute('stroke', '#6366f1');
+      document.getElementById('line-1').classList.add('animate-flow');
+      dot.setAttribute('cx', '195');
+
+      setTimeout(() => {
+        logEl.textContent = `> ${cfg.steps[1]}`;
+        document.getElementById('node-2').querySelector('rect').setAttribute('stroke', '#6366f1');
+        document.getElementById('line-2').setAttribute('stroke', '#6366f1');
+        document.getElementById('line-2').classList.add('animate-flow');
+        dot.setAttribute('cx', '410');
+      }, 1300);
+
+      setTimeout(() => {
+        logEl.textContent = `> ${cfg.steps[2]}`;
+        document.getElementById('node-3').querySelector('rect').setAttribute('stroke', '#6366f1');
+        document.getElementById('line-3').setAttribute('stroke', '#10b981');
+        document.getElementById('line-3').classList.add('animate-flow');
+        dot.setAttribute('cx', '620');
+      }, 2600);
+
+      setTimeout(() => {
+        logEl.textContent = `> ${cfg.steps[3]}`;
+        document.getElementById('node-4').querySelector('rect').setAttribute('stroke', '#10b981');
+        dot.setAttribute('cx', '732');
+        badgeEl.textContent = 'TERHUBUNG (200 OK)';
+        badgeEl.className = 'px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px]';
+        isRunning = false;
+      }, 3900);
+    }
+
+    // --- KUIS INTERAKTIF (25 SOAL DENGAN PANJANG OPSI SEIMBANG) ---
+    const quizData = [
+      {
+        q: "1. Sekumpulan dua atau lebih perangkat komputer yang saling terhubung melalui media transmisi untuk berbagi data dan sumber daya disebut...",
+        options: [
+          "Sistem operasi lokal",
+          "Jaringan komputer",
+          "Basis data terpusat",
+          "Perangkat lunak aplikasi"
+        ],
+        answer: 1,
+        explanation: "Jaringan komputer menghubungkan beberapa perangkat agar dapat saling bertukar data dan berbagi sumber daya."
+      },
+      {
+        q: "2. Jenis jaringan yang mencakup area terbatas seperti satu ruang laboratorium komputer atau satu gedung sekolah adalah...",
+        options: [
+          "Wide Area Network (WAN)",
+          "Metropolitan Area Network (MAN)",
+          "Local Area Network (LAN)",
+          "Global Area Network (GAN)"
+        ],
+        answer: 2,
+        explanation: "LAN mencakup area lokal yang sempit seperti satu ruangan, rumah, atau satu gedung sekolah."
+      },
+      {
+        q: "3. Jaringan yang menghubungkan beberapa jaringan lokal dalam satu kota atau kabupaten biasanya disebut...",
+        options: [
+          "Local Area Network (LAN)",
+          "Personal Area Network (PAN)",
+          "Metropolitan Area Network (MAN)",
+          "Storage Area Network (SAN)"
+        ],
+        answer: 2,
+        explanation: "MAN menjangkau area antargedung atau antarbagian dalam satu kota."
+      },
+      {
+        q: "4. Contoh paling tepat dari jaringan komputer berskala global (WAN) yang menghubungkan jutaan jaringan di dunia adalah...",
+        options: [
+          "Jaringan printer lab",
+          "Jaringan internet publik",
+          "Koneksi kabel USB PC",
+          "Hotspot satu ruangan"
+        ],
+        answer: 1,
+        explanation: "Internet merupakan jaringan WAN terbesar di dunia yang menghubungkan berbagai jaringan global."
+      },
+      {
+        q: "5. Perbedaan utama antara jaringan intranet dan jaringan internet terletak pada...",
+        options: [
+          "Jenis kabel tembaga saja",
+          "Cakupan dan hak aksesnya",
+          "Merek kartu jaringan PC",
+          "Ukuran layar monitor klien"
+        ],
+        answer: 1,
+        explanation: "Intranet bersifat privat/terbatas untuk internal organisasi, sedangkan internet bersifat publik."
+      },
+      {
+        q: "6. Manfaat jaringan komputer ketika beberapa komputer di lab menggunakan satu printer bersama-sama disebut...",
+        options: [
+          "Resource sharing",
+          "Data compression",
+          "System formatting",
+          "Screen mirroring"
+        ],
+        answer: 0,
+        explanation: "Resource sharing memungkinkan pemakaian perangkat keras atau layanan bersama dalam jaringan."
+      },
+      {
+        q: "7. Komponen perangkat keras pada komputer yang menjadi antarmuka fisik masuk dan keluarnya data jaringan adalah...",
+        options: [
+          "Power supply unit",
+          "Network Interface Card",
+          "Optical disc drive",
+          "Heatsink processor"
+        ],
+        answer: 1,
+        explanation: "NIC (Network Interface Card) menghubungkan perangkat komputer ke media jaringan."
+      },
+      {
+        q: "8. Alamat fisik unik yang tertanam secara permanen pada perangkat keras NIC sejak dari pabrik disebut...",
+        options: [
+          "IP Address dinamis",
+          "Domain Name System",
+          "MAC Address perangkat",
+          "Subnet Mask jaringan"
+        ],
+        answer: 2,
+        explanation: "MAC Address adalah identitas fisik unik bawaan pabrik pada kartu jaringan."
+      },
+      {
+        q: "9. Konektor standar yang umum dipasang pada ujung kabel jaringan UTP (twisted pair) di LAN adalah...",
+        options: [
+          "Konektor HDMI tipe A",
+          "Konektor RJ-45 delapan pin",
+          "Konektor VGA lima belas pin",
+          "Konektor audio tiga setengah mm"
+        ],
+        answer: 1,
+        explanation: "Kabel UTP jaringan Ethernet menggunakan konektor RJ-45."
+      },
+      {
+        q: "10. Media transmisi jaringan yang mengirimkan data menggunakan pulsa cahaya melalui serat kaca adalah...",
+        options: [
+          "Kabel koaksial antena",
+          "Kabel tembaga UTP Cat5",
+          "Kabel serat fiber optik",
+          "Kabel paralel printer"
+        ],
+        answer: 2,
+        explanation: "Fiber optik mentransmisikan sinyal data berupa cahaya pada serat kaca atau plastik."
+      },
+      {
+        q: "11. Perangkat jaringan yang menghubungkan banyak komputer dalam satu LAN dan mengirim data ke port tujuan adalah...",
+        options: [
+          "Switch jaringan lokal",
+          "Stabilizer tegangan listrik",
+          "Scanner dokumen meja",
+          "External hard drive"
+        ],
+        answer: 0,
+        explanation: "Switch menghubungkan perangkat dalam jaringan LAN dan meneruskan frame berdasarkan MAC Address."
+      },
+      {
+        q: "12. Perangkat yang berfungsi menghubungkan dua jaringan berbeda serta menentukan jalur pengiriman paket data adalah...",
+        options: [
+          "Router jaringan data",
+          "Casing pendingin CPU",
+          "Kabel daya monitor",
+          "Baterai CMOS motherboard"
+        ],
+        answer: 0,
+        explanation: "Router menghubungkan jaringan yang berbeda dan mengatur rute paket data antarjaringan."
+      },
+      {
+        q: "13. Perangkat yang mengubah sinyal dari penyedia layanan internet (ISP) menjadi sinyal digital bagi jaringan lokal adalah...",
+        options: [
+          "Modem atau ONT",
+          "Keyboard nirkabel",
+          "Webcam resolusi HD",
+          "Flashdisk penyimpanan"
+        ],
+        answer: 0,
+        explanation: "Modem/ONT menerjemahkan sinyal jalur layanan ISP menjadi sinyal digital yang dapat diproses."
+      },
+      {
+        q: "14. Perangkat yang memancarkan sinyal jaringan kabel menjadi sinyal nirkabel Wi-Fi di area ruangan disebut...",
+        options: [
+          "Wireless Access Point",
+          "UPS cadangan daya",
+          "Motherboard utama",
+          "Optical mouse USB"
+        ],
+        answer: 0,
+        explanation: "Access Point menyediakan akses jaringan nirkabel (Wi-Fi) bagi perangkat klien."
+      },
+      {
+        q: "15. Istilah SSID pada jaringan Wi-Fi merujuk pada...",
+        options: [
+          "Kecepatan unggah data",
+          "Nama jaringan nirkabel",
+          "Kapasitas memori RAM",
+          "Jenis soket prosesor"
+        ],
+        answer: 1,
+        explanation: "SSID (Service Set Identifier) adalah nama identitas jaringan Wi-Fi yang tampil di perangkat."
+      },
+      {
+        q: "16. Alamat logis berupa deretan angka yang dipakai untuk mengidentifikasi perangkat pada jaringan IP disebut...",
+        options: [
+          "IP Address perangkat",
+          "Resolusi layar LCD",
+          "Frekuensi jam CPU",
+          "Kapasitas baterai Li-ion"
+        ],
+        answer: 0,
+        explanation: "IP Address berfungsi sebagai alamat logis perangkat agar komunikasi data dapat diarahkan tepat."
+      },
+      {
+        q: "17. Layanan yang menerjemahkan nama domain seperti smaqtyq1.sch.id menjadi alamat IP server tujuan adalah...",
+        options: [
+          "DHCP (Dynamic Host)",
+          "DNS (Domain Name System)",
+          "FTP (File Transfer)",
+          "BIOS (Basic Input)"
+        ],
+        answer: 1,
+        explanation: "DNS menerjemahkan nama domain yang mudah dibaca manusia menjadi alamat IP numerik."
+      },
+      {
+        q: "18. Layanan jaringan yang membagikan IP Address secara otomatis kepada perangkat yang baru terhubung adalah...",
+        options: [
+          "Layanan server DHCP",
+          "Pengaturan layar ganda",
+          "Driver kartu grafis",
+          "Partisi diska sistem"
+        ],
+        answer: 0,
+        explanation: "DHCP memberikan konfigurasi IP Address secara otomatis sehingga tidak perlu diatur manual satu per satu."
+      },
+      {
+        q: "19. Perusahaan atau lembaga yang menyediakan layanan sambungan akses internet kepada pelanggan disebut...",
+        options: [
+          "ISP (Service Provider)",
+          "GUI (User Interface)",
+          "GPU (Graphics Unit)",
+          "SSD (Solid State Drive)"
+        ],
+        answer: 0,
+        explanation: "ISP (Internet Service Provider) menyediakan akses sambungan menuju jaringan internet."
+      },
+      {
+        q: "20. Cara menghubungkan laptop ke internet menggunakan fitur hotspot dari smartphone disebut...",
+        options: [
+          "Tethering seluler",
+          "Defragmentasi diska",
+          "Overclocking memori",
+          "Kalibrasi warna layar"
+        ],
+        answer: 0,
+        explanation: "Tethering membagikan koneksi data seluler smartphone ke perangkat lain melalui Wi-Fi hotspot, USB, atau Bluetooth."
+      },
+      {
+        q: "21. Keunggulan utama menghubungkan komputer ke internet memakai kabel LAN dibanding Wi-Fi jarak jauh adalah...",
+        options: [
+          "Tidak butuh port RJ-45",
+          "Koneksi lebih stabil",
+          "Bisa dipakai sambil jalan",
+          "Tanpa kabel fisik sama sekali"
+        ],
+        answer: 1,
+        explanation: "Koneksi kabel LAN umumnya lebih stabil dan minim gangguan interferensi sinyal radio."
+      },
+      {
+        q: "22. Ketika perangkat terhubung ke jaringan Wi-Fi publik atau sekolah, langkah keamanan dasar yang tepat adalah...",
+        options: [
+          "Mematikan firewall sistem",
+          "Membagikan folder penuh",
+          "Menggunakan sandi kuat",
+          "Menyimpan sandi di publik"
+        ],
+        answer: 2,
+        explanation: "Penggunaan sandi yang kuat serta kewaspadaan terhadap jaringan yang tidak dikenal membantu menjaga keamanan data."
+      },
+      {
+        q: "23. Jika lampu indikator port pada switch menyala tetapi komputer tetap tidak mendapat internet, penyebab umumnya adalah...",
+        options: [
+          "Layar monitor terbalik",
+          "Gangguan pada router/ISP",
+          "Tombol spasi keyboard macet",
+          "Tinta printer habis pakai"
+        ],
+        answer: 1,
+        explanation: "Lampu port switch yang menyala menandakan koneksi fisik kabel terhubung, sedangkan masalah internet bisa berasal dari router, konfigurasi IP, atau jalur ISP."
+      },
+      {
+        q: "24. Urutan alur yang paling sesuai saat PC lab mengirim permintaan halaman web melalui jaringan sekolah ke internet adalah...",
+        options: [
+          "PC → Switch/AP → Router → Modem/ISP",
+          "Modem/ISP → PC → Keyboard → Monitor",
+          "Printer → Scanner → Switch → Mouse",
+          "Monitor → CPU → Speaker → Flashdisk"
+        ],
+        answer: 0,
+        explanation: "Data berangkat dari PC melalui media dan perangkat akses (Switch/AP), diteruskan Router ke Modem/ISP menuju internet."
+      },
+      {
+        q: "25. Apa fungsi utama alamat protokol internet (IP Address) saat dua komputer saling bertukar data di jaringan?",
+        options: [
+          "Menambah kapasitas RAM",
+          "Menentukan alamat tujuan",
+          "Mendinginkan suhu prosesor",
+          "Mengubah warna tampilan"
+        ],
+        answer: 1,
+        explanation: "IP Address membantu mengidentifikasi pengirim dan penerima paket data agar sampai ke tujuan yang tepat."
+      }
+    ];
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = quizData.map((item, idx) => `
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <p class="font-bold text-slate-900 text-sm mb-3">${item.q}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            ${item.options.map((opt, oIdx) => `
+              <label class="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 cursor-pointer p-2.5 rounded-xl bg-white border border-slate-200/80 hover:border-indigo-300 transition">
+                <input type="radio" name="q${idx}" value="${oIdx}" class="accent-indigo-600 shrink-0">
+                <span>${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+          <p id="exp-${idx}" class="hidden mt-3 text-xs p-2.5 rounded-lg bg-indigo-50 text-indigo-800 font-medium"></p>
+        </div>
+      `).join('');
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      quizData.forEach((item, idx) => {
+        const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+        const expEl = document.getElementById(`exp-${idx}`);
+        expEl.classList.remove('hidden');
+
+        if (selected && parseInt(selected.value) === item.answer) {
+          score++;
+          expEl.className = "mt-3 text-xs p-2.5 rounded-lg bg-emerald-50 text-emerald-800 font-medium";
+          expEl.textContent = `✓ Benar! ${item.explanation}`;
+        } else {
+          expEl.className = "mt-3 text-xs p-2.5 rounded-lg bg-rose-50 text-rose-800 font-medium";
+          expEl.textContent = `✗ Kurang tepat. Jawaban benar: ${item.options[item.answer]}. ${item.explanation}`;
         }
+      });
 
-        const quizData = [
-            {
-                q: "Jaringan komputer yang menghubungkan seluruh PC di dalam satu ruang Laboratorium Komputer SMA disebut...",
-                opts: ["PAN", "LAN (Local Area Network)", "WAN", "MAN"],
-                ans: 1
-            },
-            {
-                q: "Layanan internet yang bertugas menerjemahkan nama domain (seperti kemdikbud.go.id) menjadi alamat angka IP Address disebut...",
-                opts: ["DNS (Domain Name System)", "Bluetooth", "HDMI", "Antivirus"],
-                ans: 0
-            },
-            {
-                q: "Perusahaan penyedia jasa layanan sambungan internet kepada pelanggan rumah maupun sekolah disebut...",
-                opts: ["CPU", "ISP (Internet Service Provider)", "BIOS", "SSD"],
-                ans: 1
-            },
-            {
-                q: "Perangkat keras jaringan yang berfungsi memancarkan gelombang radio Wi-Fi agar laptop dan smartphone dapat terhubung tanpa kabel disebut...",
-                opts: ["Access Point", "Kabel UTP", "Monitor", "Scanner"],
-                ans: 0
-            },
-            {
-                q: "Jenis kabel jaringan yang terbuat dari serat kaca dan mengirimkan data menggunakan pulsa cahaya berkecepatan sangat tinggi untuk jarak jauh adalah...",
-                opts: ["Kabel Coaxial", "Kabel Fiber Optic", "Kabel HDMI", "Kabel VGA"],
-                ans: 1
-            }
-        ];
+      const finalScore = Math.round((score / quizData.length) * 100);
+      document.getElementById('quiz-result').textContent = `Skor Kamu: ${finalScore} / 100 (${score} dari ${quizData.length} benar)`;
+    }
 
-        function renderQuiz() {
-            document.getElementById('quiz-container').innerHTML = quizData.map((item, idx) => `
-                <div>
-                    <p class="font-bold text-slate-900 mb-2.5">${idx + 1}. ${item.q}</p>
-                    <div class="space-y-2">
-                        ${item.opts.map((o, oIdx) => `
-                            <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-indigo-50/50 cursor-pointer text-sm">
-                                <input type="radio" name="q${idx}" value="${oIdx}" class="text-indigo-600">
-                                <span>${o}</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function submitQuiz() {
-            let score = 0;
-            quizData.forEach((item, idx) => {
-                const sel = document.querySelector(`input[name="q${idx}"]:checked`);
-                if (sel && parseInt(sel.value) === item.ans) score++;
-            });
-            const res = document.getElementById('quiz-result');
-            res.classList.remove('hidden');
-            res.textContent = `Skor Kamu: ${Math.round((score / quizData.length) * 100)} / 100 (${score} dari ${quizData.length} benar)`;
-        }
-
-        function resetQuiz() {
-            renderQuiz();
-            document.getElementById('quiz-result').classList.add('hidden');
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderQuiz();
-            lucide.createIcons();
+    function resetQuiz() {
+      quizData.forEach((_, idx) => {
+        document.querySelectorAll(`input[name="q${idx}"]`).forEach(radio => {
+          radio.checked = false;
         });
-    </script>
+        const expEl = document.getElementById(`exp-${idx}`);
+        expEl.classList.add('hidden');
+        expEl.textContent = '';
+      });
+      document.getElementById('quiz-result').textContent = '';
+    }
+
+    renderQuiz();
+  </script>
 </body>
 </html>
