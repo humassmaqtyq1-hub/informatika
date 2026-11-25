@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modul Pembelajaran SDLC - Informatika SMA</title>
+    <title>Portal Pembelajaran Informatika SMA (Kelas X, XI, XII)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <script>
         tailwind.config = {
             theme: {
@@ -20,1172 +19,359 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         display: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 4s ease-in-out infinite',
-                        'spin-slow': 'spin 20s linear infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-8px)' },
-                        }
                     }
                 }
             }
         }
     </script>
-
     <style>
-        /* Kustomisasi tambahan & Print Styles */
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-        }
-        
+        body { background-color: #f8fafc; color: #0f172a; }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
-
-        /* Animasi Garis Siklus SVG */
-        @keyframes dashFlow {
-            to {
-                stroke-dashoffset: -40;
-            }
-        }
-        .svg-flow-line {
-            stroke-dasharray: 8 6;
-            animation: dashFlow 1.5s linear infinite;
-        }
-
-        /* Efek Transisi Panel Materi */
-        .stage-content-enter {
-            animation: fadeSlideUp 0.35s ease-out forwards;
-        }
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Gaya Khusus Saat Dicetak / Export PDF */
-        @media print {
-            nav, #simulasi-controls, #kuis-section, .no-print {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            .print-all-stages {
-                display: block !important;
-            }
-            .shadow-lg, .shadow-xl, .shadow-md {
-                box-shadow: none !important;
-                border: 1px solid #cbd5e1 !important;
-            }
+        .card-fade { animation: fadeUp 0.35s ease-out forwards; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col">
 
-    <!-- ==================== HEADER & NAVIGASI ==================== -->
-    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 border-b border-slate-200/80 transition-all">
+    <!-- ==================== HEADER & NAVIGASI KELAS ==================== -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 border-b border-slate-200/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo / Brand -->
-                <div class="flex items-center gap-3">
+                <!-- Logo Portal -->
+                <a href="index.html" class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
-                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
                     </div>
                     <div>
                         <span class="font-display font-bold text-lg text-slate-900 tracking-tight block leading-none">Informatika<span class="text-indigo-600">SMA</span></span>
-                        <span class="text-xs text-slate-500 font-medium">Rekayasa Perangkat Lunak</span>
+                        <span class="text-xs text-slate-500 font-medium">Portal E-Learning Kurikulum Merdeka</span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Menu Desktop -->
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="#pengantar" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/60 transition">Pengantar</a>
-                    <a href="#siklus-interaktif" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/60 transition">7 Tahapan SDLC</a>
-                    <a href="#perbandingan-model" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/60 transition">Waterfall vs Agile</a>
-                    <a href="#kuis" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/60 transition">Kuis Evaluasi</a>
-                </div>
-
-                <!-- Tombol Aksi & Hamburger Mobile -->
-                <div class="flex items-center gap-2">
-                    <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium shadow-sm transition cursor-pointer" title="Cetak atau Simpan sebagai PDF">
-                        <i data-lucide="printer" class="w-4 h-4"></i>
-                        <span>Cetak / PDF</span>
+                <!-- Navigasi Pemisah Kelas (Desktop) -->
+                <div class="hidden sm:flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
+                    <button onclick="switchClass('X')" id="nav-btn-X" class="class-nav-btn px-4 py-1.5 rounded-xl text-sm font-bold transition cursor-pointer">
+                        Kelas X
                     </button>
-                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    <button onclick="switchClass('XI')" id="nav-btn-XI" class="class-nav-btn px-4 py-1.5 rounded-xl text-sm font-bold transition cursor-pointer">
+                        Kelas XI
+                    </button>
+                    <button onclick="switchClass('XII')" id="nav-btn-XII" class="class-nav-btn px-4 py-1.5 rounded-xl text-sm font-bold transition cursor-pointer">
+                        Kelas XII
                     </button>
                 </div>
+
+                <!-- Tombol Info Struktur File -->
+                <button onclick="toggleStructureModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold transition cursor-pointer">
+                    <i data-lucide="folder-tree" class="w-4 h-4 text-indigo-400"></i>
+                    <span class="hidden md:inline">Struktur File</span>
+                </button>
             </div>
-        </div>
-
-        <!-- Menu Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-1 shadow-lg">
-            <a href="#pengantar" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">1. Pengantar SDLC</a>
-            <a href="#siklus-interaktif" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">2. Simulasi 7 Tahapan</a>
-            <a href="#perbandingan-model" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">3. Waterfall vs Agile</a>
-            <a href="#kuis" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">4. Kuis Evaluasi</a>
-            <button onclick="window.print()" class="w-full mt-2 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold">
-                <i data-lucide="printer" class="w-4 h-4"></i> Cetak / Simpan PDF Materi
-            </button>
         </div>
     </nav>
 
-    <!-- ==================== HERO SECTION ==================== -->
-    <header class="pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-indigo-50/90 via-white to-slate-50 border-b border-slate-200/60 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <!-- Kolom Teks -->
-                <div class="lg:col-span-7 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-100/80 text-indigo-700 text-xs sm:text-sm font-semibold mb-6 border border-indigo-200">
-                        <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
-                        Materi Informatika Kelas X / XI • Rekayasa Perangkat Lunak
-                    </div>
-                    <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
-                        Memahami <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">System Development Life Cycle</span> (SDLC)
-                    </h1>
-                    <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
-                        Bagaimana aplikasi populer seperti Gojek, Instagram, atau sistem absensi sekolah dibuat dari nol hingga siap dipakai? Pelajari langkah sistematis para *programmer* dan *system analyst* membangun perangkat lunak berkualitas!
-                    </p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
-                        <a href="#siklus-interaktif" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-200 transition transform hover:-translate-y-0.5">
-                            <i data-lucide="play-circle" class="w-5 h-5"></i>
-                            Mulai Simulasi 7 Tahapan
-                        </a>
-                        <a href="#pengantar" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-semibold border border-slate-200 shadow-sm transition">
-                            <i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>
-                            Baca Pengantar
-                        </a>
-                    </div>
-                </div>
+    <!-- ==================== HERO BANNER ==================== -->
+    <header class="pt-28 pb-12 bg-gradient-to-b from-indigo-50/90 via-white to-slate-50 border-b border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-100/80 text-indigo-700 text-xs sm:text-sm font-semibold mb-5 border border-indigo-200">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                Modul Interaktif, Visual SVG, Analogi & Kuis Evaluasi
+            </div>
+            <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+                Pusat Materi <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">Informatika SMA</span>
+            </h1>
+            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-lg leading-relaxed mb-8">
+                Pilih jenjang kelas di bawah ini untuk mengakses modul pembelajaran per Bab. Setiap modul dilengkapi simulasi visual interaktif, analogi kehidupan sehari-hari, studi kasus, dan kuis mandiri.
+            </p>
 
-                <!-- Kolom Ilustrasi Hero SVG -->
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="relative w-full max-w-md animate-float">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 to-cyan-400/20 rounded-3xl blur-2xl"></div>
-                        <div class="relative bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
-                            <!-- Ilustrasi Vektor Modern SDLC -->
-                            <svg viewBox="0 0 400 320" class="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Background Grid -->
-                                <rect width="400" height="320" rx="20" fill="#F8FAFC"/>
-                                <circle cx="200" cy="160" r="105" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="6 6"/>
-                                <circle cx="200" cy="160" r="70" fill="#EEF2FF"/>
-                                
-                                <!-- Center Gear / Core -->
-                                <g transform="translate(172, 132)">
-                                    <rect x="6" y="6" width="44" height="44" rx="12" fill="#4F46E5"/>
-                                    <path d="M22 20L15 28L22 36M34 20L41 28L34 36M30 18L26 38" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                </g>
-                                <text x="200" y="202" text-anchor="middle" fill="#312E81" font-family="sans-serif" font-weight="bold" font-size="13">SDLC CORE</text>
-
-                                <!-- Orbiting Nodes -->
-                                <!-- Top: Plan -->
-                                <g transform="translate(176, 31)">
-                                    <circle cx="24" cy="24" r="24" fill="#3B82F6"/>
-                                    <path d="M17 24H31M24 17V31" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                                </g>
-                                <!-- Right Top: Design -->
-                                <g transform="translate(275, 85)">
-                                    <circle cx="22" cy="22" r="22" fill="#8B5CF6"/>
-                                    <rect x="14" y="14" width="16" height="16" rx="3" stroke="white" stroke-width="2.2"/>
-                                </g>
-                                <!-- Right Bottom: Code -->
-                                <g transform="translate(275, 195)">
-                                    <circle cx="22" cy="22" r="22" fill="#10B981"/>
-                                    <circle cx="22" cy="22" r="7" stroke="white" stroke-width="2.2"/>
-                                </g>
-                                <!-- Bottom: Test -->
-                                <g transform="translate(176, 242)">
-                                    <circle cx="24" cy="24" r="24" fill="#F59E0B"/>
-                                    <path d="M17 24L22 29L31 19" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </g>
-                                <!-- Left Bottom: Deploy -->
-                                <g transform="translate(80, 195)">
-                                    <circle cx="22" cy="22" r="22" fill="#EC4899"/>
-                                    <path d="M22 15V29M16 21L22 15L28 21" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </g>
-                                <!-- Left Top: Maintain -->
-                                <g transform="translate(80, 85)">
-                                    <circle cx="22" cy="22" r="22" fill="#06B6D4"/>
-                                    <path d="M16 22C16 18.6863 18.6863 16 22 16C25.3137 16 28 18.6863 28 22" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-                                </g>
-                            </svg>
-                            <div class="mt-3 flex items-center justify-between text-xs text-slate-500 px-2">
-                                <span class="flex items-center gap-1.5 font-medium text-emerald-600">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Siklus Berkelanjutan
-                                </span>
-                                <span>7 Fase Terstruktur</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Tab Pemilih Kelas Utama (Responsif Mobile & Desktop) -->
+            <div class="inline-flex flex-wrap justify-center gap-2 sm:gap-3 bg-white p-2 rounded-3xl shadow-md border border-slate-200/80">
+                <button onclick="switchClass('X')" id="hero-tab-X" class="hero-tab px-5 sm:px-7 py-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-2 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                    Kelas X (Fase E)
+                </button>
+                <button onclick="switchClass('XI')" id="hero-tab-XI" class="hero-tab px-5 sm:px-7 py-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-2 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                    Kelas XI (Fase F)
+                </button>
+                <button onclick="switchClass('XII')" id="hero-tab-XII" class="hero-tab px-5 sm:px-7 py-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-2 transition cursor-pointer">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    Kelas XII (Fase F+)
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- ==================== PENGANTAR SDLC ==================== -->
-    <section id="pengantar" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-3xl mx-auto text-center mb-14">
-            <span class="text-indigo-600 font-bold tracking-wider uppercase text-xs sm:text-sm">Konsep Dasar</span>
-            <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 mt-2 mb-4">Apa Itu System Development Life Cycle?</h2>
-            <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-                <strong>SDLC (Siklus Hidup Pengembangan Sistem)</strong> adalah kerangka kerja atau tahapan terstruktur yang digunakan oleh tim pengembang perangkat lunak untuk merencanakan, merancang, membangun, menguji, hingga memelihara sebuah sistem informasi atau aplikasi.
-            </p>
-        </div>
-
-        <!-- 3 Kartu Alasan Mengapa SDLC Penting -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-5">
-                    <i data-lucide="compass" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-display text-xl font-bold text-slate-900 mb-2.5">1. Mencegah Proyek Gagal</h3>
-                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    Tanpa rencana yang jelas, programmer bisa membuat fitur yang ternyata tidak dibutuhkan pengguna. SDLC memastikan aplikasi sesuai kebutuhan sejak awal.
-                </p>
-            </div>
-
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-5">
-                    <i data-lucide="wallet" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-display text-xl font-bold text-slate-900 mb-2.5">2. Efisiensi Biaya & Waktu</h3>
-                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    Memperbaiki kesalahan saat tahap desain jauh lebih murah daripada memperbaikinya setelah aplikasi terlanjur dirilis ke ribuan pengguna.
-                </p>
-            </div>
-
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-5">
-                    <i data-lucide="shield-check" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-display text-xl font-bold text-slate-900 mb-2.5">3. Kualitas & Dokumentasi</h3>
-                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    Setiap tahap menghasilkan dokumentasi rapi dan melewati pengujian ketat, sehingga aplikasi minim <em>bug</em> (error) dan mudah dikembangkan lagi di masa depan.
-                </p>
-            </div>
-        </div>
-
-        <!-- Analogi Pengantar Singkat -->
-        <div class="mt-10 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div class="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-amber-200">
-                <i data-lucide="lightbulb" class="w-7 h-7"></i>
-            </div>
+    <!-- ==================== DAFTAR CARD BAB PER KELAS ==================== -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Header Info Kelas Aktif -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
             <div>
-                <h4 class="font-display font-bold text-lg text-amber-950 mb-1">Analogi Sederhana: Membangun Rumah Impian</h4>
-                <p class="text-amber-900/90 text-sm sm:text-base leading-relaxed">
-                    Bayangkan jika tukang bangunan langsung menyusun batu bata tanpa gambar denah arsitek dan tanpa menghitung anggaran. Pasti temboknya miring atau biayanya habis di tengah jalan! <strong>SDLC adalah "denah dan prosedur kerja" dalam membangun aplikasi.</strong>
-                </p>
+                <span id="class-badge" class="text-xs font-bold uppercase tracking-wider text-indigo-600">Kurikulum Informatika</span>
+                <h2 id="class-heading" class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Materi Kelas X</h2>
+            </div>
+            <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 bg-white px-4 py-2 rounded-xl border border-slate-200">
+                <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
+                <span>Kapasitas Portal: <strong>Maksimal 8 Bab / Kelas</strong></span>
             </div>
         </div>
-    </section>
 
-    <!-- ==================== SIMULASI INTERAKTIF 7 TAHAPAN SDLC ==================== -->
-    <section id="siklus-interaktif" class="py-16 sm:py-24 bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Section -->
-            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
-                <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold tracking-wider uppercase mb-3 border border-indigo-500/30">
-                        Eksplorasi Visual & Studi Kasus
-                    </span>
-                    <h2 class="font-display text-2xl sm:text-4xl font-bold text-white">7 Tahapan Siklus Hidup SDLC</h2>
-                    <p class="text-slate-400 mt-2 max-w-2xl text-sm sm:text-base">
-                        Klik pada salah satu lingkaran tahapan di diagram sebelah kiri, atau tekan tombol <strong>"Putar Simulasi Alur"</strong> untuk melihat bagaimana siklus berjalan secara berurutan.
-                    </p>
-                </div>
-
-                <!-- Kontrol Simulasi -->
-                <div id="simulasi-controls" class="flex flex-wrap items-center gap-3">
-                    <button id="btn-play-sim" onclick="toggleSimulation()" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition cursor-pointer">
-                        <i id="play-icon" data-lucide="play" class="w-4 h-4 fill-current"></i>
-                        <span id="play-text">Putar Simulasi Alur</span>
-                    </button>
-                    <div class="flex items-center bg-slate-800 rounded-2xl p-1 border border-slate-700">
-                        <button onclick="prevStage()" class="p-2.5 rounded-xl hover:bg-slate-700 text-slate-300 transition cursor-pointer" title="Tahap Sebelumnya">
-                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                        </button>
-                        <span id="step-indicator" class="px-3 text-sm font-bold text-indigo-400">1 / 7</span>
-                        <button onclick="nextStage()" class="p-2.5 rounded-xl hover:bg-slate-700 text-slate-300 transition cursor-pointer" title="Tahap Berikutnya">
-                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Grid Utama: Diagram Siklus (Kiri) & Kartu Detail Materi (Kanan) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- KOLOM KIRI: DIAGRAM SIKLUS INTERAKTIF SVG -->
-                <div class="lg:col-span-5 bg-slate-800/70 border border-slate-700/80 rounded-3xl p-4 sm:p-6 flex flex-col items-center">
-                    <div class="w-full max-w-[380px] aspect-square relative">
-                        <svg id="sdlc-cycle-svg" viewBox="0 0 400 400" class="w-full h-full select-none">
-                            <defs>
-                                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                                    <feGaussianBlur stdDeviation="4" result="blur" />
-                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                                </filter>
-                            </defs>
-
-                            <!-- Lingkaran Jalur Alur Animasi -->
-                            <circle cx="200" cy="200" r="138" fill="none" stroke="#334155" stroke-width="6" />
-                            <circle cx="200" cy="200" r="138" fill="none" stroke="#6366F1" stroke-width="3" class="svg-flow-line" />
-
-                            <!-- Teks Pusat Diagram -->
-                            <circle cx="200" cy="200" r="72" fill="#0F172A" stroke="#334155" stroke-width="2" />
-                            <text id="center-stage-num" x="200" y="182" text-anchor="middle" fill="#818CF8" font-size="13" font-weight="bold" font-family="sans-serif">TAHAP 1</text>
-                            <text id="center-stage-title" x="200" y="205" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="bold" font-family="sans-serif">Perencanaan</text>
-                            <text id="center-stage-sub" x="200" y="224" text-anchor="middle" fill="#94A3B8" font-size="11" font-family="sans-serif">(Planning)</text>
-
-                            <!-- Container Node 7 Tahapan (Di-render via JS agar presisi trigonometri) -->
-                            <g id="svg-nodes-container"></g>
-                        </svg>
-                    </div>
-
-                    <!-- Pill Navigasi Cepat Mobile/Tablet -->
-                    <div class="mt-4 flex flex-wrap justify-center gap-1.5">
-                        <button onclick="selectStage(0)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="0">1. Plan</button>
-                        <button onclick="selectStage(1)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="1">2. Analysis</button>
-                        <button onclick="selectStage(2)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="2">3. Design</button>
-                        <button onclick="selectStage(3)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="3">4. Dev</button>
-                        <button onclick="selectStage(4)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="4">5. Test</button>
-                        <button onclick="selectStage(5)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="5">6. Deploy</button>
-                        <button onclick="selectStage(6)" class="stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" data-idx="6">7. Maintain</button>
-                    </div>
-                </div>
-
-                <!-- KOLOM KANAN: PANEL DETAIL MATERI, ILUSTRASI, ANALOGI & CONTOH SEKOLAH -->
-                <div class="lg:col-span-7 bg-white text-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 min-h-[520px]">
-                    <div id="stage-detail-container" class="stage-content-enter">
-                        <!-- Konten dinamis diisi oleh JavaScript -->
-                    </div>
-                </div>
-
-            </div>
+        <!-- Grid Card Bab -->
+        <div id="chapters-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Di-render otomatis oleh JavaScript -->
         </div>
-    </section>
+    </main>
 
-    <!-- ==================== PERBANDINGAN MODEL SDLC (WATERFALL VS AGILE) ==================== -->
-    <section id="perbandingan-model" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-14">
-            <span class="text-indigo-600 font-bold tracking-wider uppercase text-xs sm:text-sm">Metodologi Pengembangan</span>
-            <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900 mt-2 mb-4">Model Waterfall vs. Model Agile</h2>
-            <p class="text-slate-600 text-base sm:text-lg">
-                Ketujuh tahapan SDLC di atas dapat dijalankan dengan berbagai gaya/model. Dua model yang paling terkenal di dunia industri IT adalah <strong>Waterfall</strong> dan <strong>Agile</strong>.
+    <!-- ==================== MODAL PANDUAN STRUKTUR FILE VERCEL ==================== -->
+    <div id="structure-modal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="folder-check" class="w-5 h-5 text-indigo-600"></i>
+                    Struktur File Deployment (Vercel)
+                </h3>
+                <button onclick="toggleStructureModal()" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                Simpan seluruh file HTML berikut dalam satu folder root repositori GitHub Anda agar tautan antar-bab otomatis berjalan di Vercel:
             </p>
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-2xl font-mono text-xs space-y-1.5 overflow-x-auto">
+                <div class="text-indigo-400 font-bold">informatika-sma/</div>
+                <div>├── <span class="text-emerald-400">index.html</span> <span class="text-slate-400">(Wadah Utama)</span></div>
+                <div>├── <span class="text-sky-400">kelasXbab1.html</span> <span class="text-slate-400">(Berpikir Komputasional)</span></div>
+                <div>├── <span class="text-sky-400">kelasXbab2.html</span> <span class="text-slate-400">(Sistem Komputer)</span></div>
+                <div>├── <span class="text-sky-400">kelasXbab3.html</span> <span class="text-slate-400">(Jaringan Komputer X)</span></div>
+                <div>├── <span class="text-amber-400">kelasXIbab1.html</span> <span class="text-slate-400">(SDLC - File Sebelumnya)</span></div>
+                <div>├── <span class="text-amber-400">kelasXIbab2.html</span> <span class="text-slate-400">(Jaringan Komputer XI)</span></div>
+                <div>└── <span class="text-slate-500">kelas[X/XI/XII]bab[4..8].html</span> <span class="text-slate-500">(Slot Bab Berikutnya)</span></div>
+            </div>
+            <button onclick="toggleStructureModal()" class="w-full mt-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm cursor-pointer">
+                Mengerti
+            </button>
         </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- KARTU 1: WATERFALL -->
-            <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center">
-                                <i data-lucide="arrow-down-right" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-display text-2xl font-bold text-slate-900">Model Waterfall</h3>
-                                <span class="text-xs font-semibold text-sky-600 uppercase tracking-wider">Linear & Berurutan (Air Terjun)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualisasi Animasi SVG Waterfall -->
-                    <div class="bg-sky-50/70 rounded-2xl p-4 mb-6 border border-sky-100">
-                        <svg viewBox="0 0 360 130" class="w-full h-auto">
-                            <!-- Tangga Waterfall -->
-                            <rect x="15" y="12" width="75" height="22" rx="6" fill="#0284C7"/>
-                            <text x="52" y="27" text-anchor="middle" fill="white" font-size="10" font-weight="bold">1. Analisis</text>
-                            
-                            <path d="M90 23 H105 V45" stroke="#38BDF8" stroke-width="2.5" fill="none" class="svg-flow-line"/>
-                            
-                            <rect x="85" y="45" width="75" height="22" rx="6" fill="#0369A1"/>
-                            <text x="122" y="60" text-anchor="middle" fill="white" font-size="10" font-weight="bold">2. Desain</text>
-                            
-                            <path d="M160 56 H175 V78" stroke="#38BDF8" stroke-width="2.5" fill="none" class="svg-flow-line"/>
-                            
-                            <rect x="155" y="78" width="85" height="22" rx="6" fill="#1D4ED8"/>
-                            <text x="197" y="93" text-anchor="middle" fill="white" font-size="10" font-weight="bold">3. Coding & Test</text>
-
-                            <path d="M240 89 H255 V105" stroke="#38BDF8" stroke-width="2.5" fill="none" class="svg-flow-line"/>
-
-                            <rect x="245" y="102" width="100" height="22" rx="6" fill="#0F172A"/>
-                            <text x="295" y="117" text-anchor="middle" fill="white" font-size="10" font-weight="bold">4. Rilis Selesai</text>
-                        </svg>
-                    </div>
-
-                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-5">
-                        Bekerja seperti air terjun yang mengalir satu arah ke bawah. Setiap tahap <strong>harus selesai 100%</strong> dan disetujui sebelum bisa melangkah ke tahap berikutnya. Sulit untuk kembali ke tahap sebelumnya jika tiba-tiba ada perubahan.
-                    </p>
-
-                    <div class="space-y-2.5 text-sm mb-6">
-                        <div class="flex items-start gap-2.5">
-                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
-                            <span class="text-slate-700"><strong>Kelebihan:</strong> Struktur sangat jelas, jadwal & biaya mudah diprediksi di awal, dokumentasi lengkap.</span>
-                        </div>
-                        <div class="flex items-start gap-2.5">
-                            <i data-lucide="x-circle" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
-                            <span class="text-slate-700"><strong>Kekurangan:</strong> Tidak fleksibel jika klien berubah pikiran di tengah jalan; aplikasi baru bisa dilihat di akhir proyek.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
-                    <span class="text-xs font-bold text-slate-500 uppercase block mb-1">Kapan Tepat Digunakan?</span>
-                    <p class="text-sm font-medium text-slate-800">
-                        Cocok untuk proyek dengan aturan baku yang jarang berubah, seperti <strong>Sistem Perbankan, Sistem Ujian Nasional, atau Perangkat Lunak Medis</strong>.
-                    </p>
-                </div>
-            </div>
-
-            <!-- KARTU 2: AGILE -->
-            <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                                <i data-lucide="repeat" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-display text-2xl font-bold text-slate-900">Model Agile (Scrum)</h3>
-                                <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider">Iteratif & Fleksibel (Sprint)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualisasi Animasi SVG Agile -->
-                    <div class="bg-indigo-50/70 rounded-2xl p-4 mb-6 border border-indigo-100">
-                        <svg viewBox="0 0 360 130" class="w-full h-auto">
-                            <!-- Sprint 1 -->
-                            <circle cx="70" cy="65" r="38" fill="none" stroke="#6366F1" stroke-width="3" class="svg-flow-line"/>
-                            <text x="70" y="61" text-anchor="middle" fill="#312E81" font-size="10" font-weight="bold">Sprint 1</text>
-                            <text x="70" y="74" text-anchor="middle" fill="#4F46E5" font-size="8">Rilis v1.0</text>
-
-                            <path d="M112 65 H138" stroke="#6366F1" stroke-width="2.5" marker-end="url(#arrow)"/>
-
-                            <!-- Sprint 2 -->
-                            <circle cx="180" cy="65" r="38" fill="none" stroke="#8B5CF6" stroke-width="3" class="svg-flow-line"/>
-                            <text x="180" y="61" text-anchor="middle" fill="#4C1D95" font-size="10" font-weight="bold">Sprint 2</text>
-                            <text x="180" y="74" text-anchor="middle" fill="#7C3AED" font-size="8">Rilis v2.0</text>
-
-                            <path d="M222 65 H248" stroke="#8B5CF6" stroke-width="2.5"/>
-
-                            <!-- Sprint 3 -->
-                            <circle cx="290" cy="65" r="38" fill="none" stroke="#10B981" stroke-width="3" class="svg-flow-line"/>
-                            <text x="290" y="61" text-anchor="middle" fill="#064E3B" font-size="10" font-weight="bold">Sprint 3</text>
-                            <text x="290" y="74" text-anchor="middle" fill="#059669" font-size="8">Rilis v3.0</text>
-                        </svg>
-                    </div>
-
-                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-5">
-                        Memecah proyek besar menjadi siklus-siklus kecil berdurasi 1–4 minggu yang disebut <strong>Sprint</strong>. Setiap selesai satu Sprint, tim langsung merilis versi aplikasi yang sudah bisa dicoba pengguna untuk mendapat masukan cepat.
-                    </p>
-
-                    <div class="space-y-2.5 text-sm mb-6">
-                        <div class="flex items-start gap-2.5">
-                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
-                            <span class="text-slate-700"><strong>Kelebihan:</strong> Sangat adaptif terhadap perubahan fitur, pengguna cepat mencoba produk, risiko gagal kecil.</span>
-                        </div>
-                        <div class="flex items-start gap-2.5">
-                            <i data-lucide="x-circle" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
-                            <span class="text-slate-700"><strong>Kekurangan:</strong> Membutuhkan komunikasi tim yang sangat intens setiap hari; waktu selesai total bisa bergeser.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-indigo-50/60 rounded-2xl p-4 border border-indigo-100">
-                    <span class="text-xs font-bold text-indigo-600 uppercase block mb-1">Kapan Tepat Digunakan?</span>
-                    <p class="text-sm font-medium text-slate-800">
-                        Cocok untuk aplikasi startup yang dinamis dan sering update fitur, seperti <strong>E-Commerce (Shopee/Tokopedia), Media Sosial, atau Game Online</strong>.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== KUIS EVALUASI SISWA ==================== -->
-    <section id="kuis-section" class="py-16 sm:py-24 bg-indigo-50/70 border-t border-slate-200/80">
-        <div id="kuis" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-indigo-600 text-white text-xs font-bold tracking-wider uppercase mb-3">
-                    <i data-lucide="award" class="w-3.5 h-3.5"></i> Uji Pemahaman
-                </span>
-                <h2 class="font-display text-2xl sm:text-4xl font-bold text-slate-900">Kuis Studi Kasus SDLC</h2>
-                <p class="text-slate-600 mt-2 text-sm sm:text-base">
-                    Jawab 6 pertanyaan studi kasus berikut untuk menguji seberapa paham kamu membedakan setiap tahapan SDLC!
-                </p>
-            </div>
-
-            <!-- Container Kuis -->
-            <div class="bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 sm:p-10">
-                <div id="quiz-container" class="space-y-8">
-                    <!-- Soal kuis di-render oleh JavaScript -->
-                </div>
-
-                <!-- Tombol Submit & Reset -->
-                <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p id="quiz-status-text" class="text-sm text-slate-500 font-medium">Pilih satu jawaban terbaik pada setiap nomor.</p>
-                    <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <button onclick="resetQuiz()" class="w-1/2 sm:w-auto px-5 py-3 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition cursor-pointer">
-                            Ulangi Kuis
-                        </button>
-                        <button onclick="submitQuiz()" class="w-1/2 sm:w-auto px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-lg shadow-indigo-200 transition cursor-pointer">
-                            Periksa Jawaban
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Kotak Hasil Skor -->
-                <div id="quiz-result-box" class="hidden mt-8 p-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div>
-                            <span class="text-indigo-200 text-xs font-bold uppercase tracking-wider">Hasil Evaluasi Kamu</span>
-                            <h3 id="quiz-score-title" class="font-display text-2xl sm:text-3xl font-extrabold mt-1">Skor: 100 / 100</h3>
-                            <p id="quiz-score-feedback" class="text-indigo-100 text-sm mt-1">Luar biasa! Kamu sudah menguasai konsep SDLC dengan sangat baik.</p>
-                        </div>
-                        <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl font-extrabold">
-                            <span id="quiz-correct-count">6/6</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- ==================== FOOTER ==================== -->
-    <footer class="bg-slate-950 text-slate-400 py-10 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-                    <i data-lucide="code-2" class="w-4 h-4"></i>
-                </div>
-                <span class="font-display font-bold text-white">Modul Informatika SMA • SDLC</span>
+    <footer class="bg-slate-950 text-slate-400 py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+            <div class="flex items-center gap-2 text-white font-display font-bold">
+                <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-400"></i>
+                Portal Pembelajaran Informatika SMA
             </div>
-            <p class="text-center sm:text-right text-xs sm:text-sm text-slate-500">
-                Disusun untuk Pembelajaran Rekayasa Perangkat Lunak (RPL) Kelas X / XI SMA.
-            </p>
+            <p class="text-slate-500">Arsitektur Multi-File Statis • Siap Deploy di Vercel</p>
         </div>
     </footer>
 
-    <!-- ==================== SCRIPT INTERAKTIF ==================== -->
     <script>
-        // 1. DATA LENGKAP 7 TAHAPAN SDLC
-        const sdlcStages = [
-            {
-                id: 1,
-                shortTitle: "Perencanaan",
-                enTitle: "Planning",
-                color: "#3B82F6", // Blue
-                bgBadge: "bg-blue-100 text-blue-700",
-                tagline: "Menentukan tujuan, kelayakan, anggaran, dan jadwal proyek.",
-                description: "Tahap paling awal di mana tim manajemen, pemilik proyek (klien), dan System Analyst berkumpul untuk merumuskan masalah utama yang ingin diselesaikan. Pada fase ini dilakukan <strong>Studi Kelayakan (Feasibility Study)</strong> yang mencakup kelayakan teknis, biaya (anggaran), dan waktu pengerjaan.",
-                activities: [
-                    "Identifikasi masalah & tujuan pembuatan sistem.",
-                    "Menghitung estimasi biaya (budget) dan jadwal pengerjaan (timeline).",
-                    "Membentuk tim pengembang (Project Manager, Analyst, Programmer, Tester).",
-                    "Menyusun dokumen Proposal Proyek (Project Charter)."
-                ],
-                analogyTitle: "Persiapan Acara Pentas Seni (Pensi) Sekolah",
-                analogyText: "Ketua OSIS dan panitia rapat perdana menentukan tema Pensi, tanggal pelaksanaan, estimasi dana sponsor, serta pembagian seksi kepanitiaan sebelum bekerja lebih jauh.",
-                schoolCase: "Kepala Sekolah melihat antrean panjang di kantin saat jam istirahat. Tim IT sekolah merencanakan pembuatan <strong>'Aplikasi Kantin Digital SMA'</strong> dengan anggaran Rp 2 juta dan target selesai dalam 2 bulan.",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#EFF6FF"/>
-                        <rect x="45" y="25" width="150" height="110" rx="10" fill="white" stroke="#BFDBFE" stroke-width="2"/>
-                        <rect x="65" y="42" width="60" height="10" rx="5" fill="#3B82F6"/>
-                        <circle cx="72" cy="70" r="6" fill="#10B981"/>
-                        <rect x="86" y="66" width="85" height="8" rx="4" fill="#CBD5E1"/>
-                        <circle cx="72" cy="92" r="6" fill="#3B82F6"/>
-                        <rect x="86" y="88" width="70" height="8" rx="4" fill="#CBD5E1"/>
-                        <circle cx="72" cy="114" r="6" fill="#F59E0B"/>
-                        <rect x="86" y="110" width="90" height="8" rx="4" fill="#CBD5E1"/>
-                        <circle cx="185" cy="120" r="22" fill="#2563EB"/>
-                        <path d="M178 120L183 125L193 115" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                `
+        // KONFIGURASI KURIKULUM (Maksimal 8 Bab per Kelas)
+        const curriculumData = {
+            X: {
+                title: "Materi Informatika Kelas X (Fase E)",
+                badge: "Kelas X • Fondasi Informatika",
+                chapters: [
+                    {
+                        bab: 1,
+                        title: "Berpikir Komputasional",
+                        subtopics: ["A. Berpikir Komputasional (4 Fondasi)", "B. Berbagai Algoritme Standar (Searching & Sorting)"],
+                        file: "kelasXbab1.html",
+                        status: "ready",
+                        icon: "brain-circuit",
+                        color: "blue",
+                        desc: "Pelajari dekomposisi, pengenalan pola, abstraksi, algoritma, serta cara kerja pencarian dan pengurutan data."
+                    },
+                    {
+                        bab: 2,
+                        title: "Sistem Komputer",
+                        subtopics: ["A. Interaksi Perangkat Keras, Lunak, dan Pengguna", "B. Berbagai Permasalahan Penggunaan Komputer"],
+                        file: "kelasXbab2.html",
+                        status: "ready",
+                        icon: "monitor-cpu",
+                        color: "cyan",
+                        desc: "Simulasi siklus pemrosesan Input–Process–Output serta panduan troubleshooting masalah hardware & software."
+                    },
+                    {
+                        bab: 3,
+                        title: "Jaringan Komputer & Internet",
+                        subtopics: ["A. Mengenal Jaringan Komputer (LAN, MAN, WAN)", "B. Menghubungkan Komputer dengan Internet"],
+                        file: "kelasXbab3.html",
+                        status: "ready",
+                        icon: "globe",
+                        color: "indigo",
+                        desc: "Memahami cakupan jaringan lokal hingga global, IP Address, DNS, serta mekanisme koneksi internet aman."
+                    },
+                    // Slot Bab 4 - 8 disiapkan agar guru mudah menambah file kelasXbab4.html s.d. kelasXbab8.html
+                    { bab: 4, title: "Analisis Data (Slot Bab 4)", subtopics: ["Siap diisi file kelasXbab4.html"], file: "kelasXbab4.html", status: "slot", icon: "bar-chart-3", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 4 Kelas X." },
+                    { bab: 5, title: "Algoritma & Pemrograman (Slot Bab 5)", subtopics: ["Siap diisi file kelasXbab5.html"], file: "kelasXbab5.html", status: "slot", icon: "code", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 5 Kelas X." },
+                    { bab: 6, title: "Dampak Sosial Informatika (Slot Bab 6)", subtopics: ["Siap diisi file kelasXbab6.html"], file: "kelasXbab6.html", status: "slot", icon: "users", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 6 Kelas X." },
+                    { bab: 7, title: "Praktik Lintas Bidang (Slot Bab 7)", subtopics: ["Siap diisi file kelasXbab7.html"], file: "kelasXbab7.html", status: "slot", icon: "folder-kanban", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 7 Kelas X." },
+                    { bab: 8, title: "Proyek Akhir Semester (Slot Bab 8)", subtopics: ["Siap diisi file kelasXbab8.html"], file: "kelasXbab8.html", status: "slot", icon: "award", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 8 Kelas X." }
+                ]
             },
-            {
-                id: 2,
-                shortTitle: "Analisis Kebutuhan",
-                enTitle: "Requirement Analysis",
-                color: "#06B6D4", // Cyan
-                bgBadge: "bg-cyan-100 text-cyan-700",
-                tagline: "Menggali secara detail apa saja fitur yang dibutuhkan pengguna.",
-                description: "System Analyst melakukan wawancara, observasi, dan penyebaran kuesioner kepada calon pengguna untuk mengetahui apa saja yang mereka harapkan dari sistem. Hasil akhirnya adalah dokumen <strong>SRS (Software Requirement Specification)</strong> yang berisi daftar kebutuhan fungsional (fitur) dan non-fungsional (kecepatan & keamanan).",
-                activities: [
-                    "Wawancara & observasi langsung kepada calon pengguna.",
-                    "Menganalisis kelemahan sistem lama (yang masih manual).",
-                    "Menentukan daftar fitur wajib (Kebutuhan Fungsional).",
-                    "Menyusun dokumen Spesifikasi Kebutuhan Perangkat Lunak (SRS)."
-                ],
-                analogyTitle: "Survei Selera Pembeli & Bahan Baku Jualan",
-                analogyText: "Sebelum berjualan makanan di bazar sekolah, kamu bertanya kepada teman-teman: 'Kalian lebih suka pedas atau manis? Harganya mau berapa?' lalu mencatat daftar bahan baku yang diperlukan.",
-                schoolCase: "Tim mewawancarai ibu kantin dan siswa. Ditemukan kebutuhan: siswa butuh fitur <strong>Pre-Order menu sebelum istirahat</strong> dan bayar via QRIS/Saldo, sedangkan ibu kantin butuh fitur <strong>rekap pesanan otomatis</strong>.",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#ECFEFF"/>
-                        <circle cx="95" cy="75" r="32" fill="white" stroke="#06B6D4" stroke-width="4"/>
-                        <line x1="118" y1="98" x2="145" y2="125" stroke="#0891B2" stroke-width="6" stroke-linecap="round"/>
-                        <rect x="82" y="65" width="26" height="5" rx="2.5" fill="#06B6D4"/>
-                        <rect x="82" y="75" width="18" height="5" rx="2.5" fill="#67E8F9"/>
-                        <rect x="145" y="35" width="60" height="45" rx="8" fill="#0E7490"/>
-                        <rect x="155" y="47" width="40" height="5" rx="2" fill="white"/>
-                        <rect x="155" y="57" width="28" height="5" rx="2" fill="#A5F3FC"/>
-                    </svg>
-                `
+            XI: {
+                title: "Materi Informatika Kelas XI (Fase F)",
+                badge: "Kelas XI • Rekayasa & Jaringan Lanjut",
+                chapters: [
+                    {
+                        bab: 1,
+                        title: "System Development Life Cycle (SDLC)",
+                        subtopics: ["A. 7 Tahapan Siklus Hidup Pengembangan Sistem", "B. Perbandingan Model Waterfall vs Agile"],
+                        file: "kelasXIbab1.html",
+                        status: "ready",
+                        icon: "refresh-cw",
+                        color: "indigo",
+                        desc: "Simulasi siklus 7 tahapan rekayasa perangkat lunak, studi kasus Aplikasi Kantin SMA, dan kuis evaluasi."
+                    },
+                    {
+                        bab: 2,
+                        title: "Jaringan Komputer Lanjutan",
+                        subtopics: ["A. Topologi Jaringan (Bus, Star, Ring, Mesh, Tree)", "B. Perangkat Jaringan dan Mekanisme Pengiriman Data"],
+                        file: "kelasXIbab2.html",
+                        status: "ready",
+                        icon: "network",
+                        color: "emerald",
+                        desc: "Simulasi interaktif 5 topologi jaringan, fungsi Router/Switch/Access Point, serta animasi paket data TCP/IP."
+                    },
+                    { bab: 3, title: "Strategi Algoritmik & Pemrograman (Slot Bab 3)", subtopics: ["Siap diisi file kelasXIbab3.html"], file: "kelasXIbab3.html", status: "slot", icon: "terminal", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 3 Kelas XI." },
+                    { bab: 4, title: "Basis Data / Database (Slot Bab 4)", subtopics: ["Siap diisi file kelasXIbab4.html"], file: "kelasXIbab4.html", status: "slot", icon: "database", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 4 Kelas XI." },
+                    { bab: 5, title: "Keamanan Informasi & Siber (Slot Bab 5)", subtopics: ["Siap diisi file kelasXIbab5.html"], file: "kelasXIbab5.html", status: "slot", icon: "shield", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 5 Kelas XI." },
+                    { bab: 6, title: "Kecerdasan Artifisial Dasar (Slot Bab 6)", subtopics: ["Siap diisi file kelasXIbab6.html"], file: "kelasXIbab6.html", status: "slot", icon: "bot", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 6 Kelas XI." },
+                    { bab: 7, title: "Pengembangan Web / Mobile (Slot Bab 7)", subtopics: ["Siap diisi file kelasXIbab7.html"], file: "kelasXIbab7.html", status: "slot", icon: "smartphone", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 7 Kelas XI." },
+                    { bab: 8, title: "Praktik Lintas Bidang XI (Slot Bab 8)", subtopics: ["Siap diisi file kelasXIbab8.html"], file: "kelasXIbab8.html", status: "slot", icon: "layers", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 8 Kelas XI." }
+                ]
             },
-            {
-                id: 3,
-                shortTitle: "Perancangan Sistem",
-                enTitle: "System Design",
-                color: "#8B5CF6", // Purple
-                bgBadge: "bg-purple-100 text-purple-700",
-                tagline: "Membuat cetak biru (blueprint), struktur database, dan tampilan UI/UX.",
-                description: "Mengubah daftar kebutuhan menjadi rancangan teknis sebelum mulai menulis kode program. Perancang sistem membuat diagram alur data (<strong>Flowchart / DFD</strong>), merancang tabel penyimpanan data (<strong>ERD / Database</strong>), serta menggambar sketsa tampilan layar (<strong>Wireframe & UI/UX Prototype</strong>).",
-                activities: [
-                    "Merancang arsitektur database menggunakan ERD (Entity Relationship Diagram).",
-                    "Membuat alur proses sistem dengan Flowchart atau UML.",
-                    "Mendesain tampilan antarmuka pengguna (UI/UX Mockup) di Figma.",
-                    "Menentukan teknologi yang dipakai (misal: bahasa pemrograman & server)."
-                ],
-                analogyTitle: "Membuat Denah Arsitek & Desain Interior Rumah",
-                analogyText: "Arsitek menggambar cetak biru letak kamar tidur, dapur, jalur pipa air, hingga memilih warna cat tembok di atas kertas/komputer sebelum tukang mulai membangun.",
-                schoolCase: "UI/UX Designer membuat prototipe layar HP aplikasi kantin dengan tombol 'Pesan Sekarang' yang besar. Database Designer merancang tabel <code>tb_siswa</code>, <code>tb_menu</code>, dan <code>tb_transaksi</code>.",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#F5F3FF"/>
-                        <rect x="40" y="25" width="95" height="110" rx="10" fill="white" stroke="#C4B5FD" stroke-width="2"/>
-                        <rect x="52" y="38" width="71" height="24" rx="4" fill="#EDE9FE"/>
-                        <rect x="52" y="70" width="32" height="32" rx="4" fill="#8B5CF6"/>
-                        <rect x="91" y="70" width="32" height="32" rx="4" fill="#DDD6FE"/>
-                        <rect x="52" y="110" width="71" height="12" rx="6" fill="#7C3AED"/>
-                        <!-- Database Cylinder -->
-                        <ellipse cx="178" cy="55" rx="26" ry="10" fill="#8B5CF6"/>
-                        <path d="M152 55V105C152 110.5 163.6 115 178 115C192.4 115 204 110.5 204 105V55" fill="#A78BFA"/>
-                        <ellipse cx="178" cy="55" rx="26" ry="10" fill="#7C3AED"/>
-                    </svg>
-                `
-            },
-            {
-                id: 4,
-                shortTitle: "Pengembangan",
-                enTitle: "Development / Coding",
-                color: "#10B981", // Emerald
-                bgBadge: "bg-emerald-100 text-emerald-700",
-                tagline: "Menerjemahkan desain menjadi kode program yang berfungsi nyata.",
-                description: "Tahap inti pembangunan perangkat lunak! Para <strong>Programmer (Frontend & Backend Developer)</strong> mulai menulis baris-baris kode pemrograman berdasarkan rancangan desain dari tahap sebelumnya, membangun database, dan menghubungkan seluruh fitur agar aplikasi benar-benar hidup.",
-                activities: [
-                    "Menulis kode antarmuka (Frontend: HTML, CSS, JavaScript, Flutter).",
-                    "Membangun logika server & API (Backend: Python, PHP, Node.js).",
-                    "Mengimplementasikan tabel database (MySQL / PostgreSQL).",
-                    "Mengintegrasikan sistem pembayaran atau layanan pihak ketiga."
-                ],
-                analogyTitle: "Tukang Bangunan Mulai Menyusun Batu Bata & Atap",
-                analogyText: "Berdasarkan gambar denah dari arsitek, para tukang mulai menggali pondasi, menyusun batu bata, memasang kabel listrik, dan mengecat dinding hingga bangunan berdiri fisik.",
-                schoolCase: "Programmer mulai melakukan <em>coding</em> aplikasi kantin: membuat halaman login NISN siswa, halaman katalog makanan, keranjang belanja, dan sistem pemotongan saldo otomatis.",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#ECFDF5"/>
-                        <rect x="35" y="24" width="170" height="112" rx="12" fill="#064E3B"/>
-                        <circle cx="52" cy="38" r="4" fill="#F87171"/>
-                        <circle cx="64" cy="38" r="4" fill="#FBBF24"/>
-                        <circle cx="76" cy="38" r="4" fill="#34D399"/>
-                        <path d="M85 68L68 83L85 98" stroke="#34D399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M155 68L172 83L155 98" stroke="#34D399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="128" y1="62" x2="112" y2="104" stroke="#6EE7B7" stroke-width="4" stroke-linecap="round"/>
-                    </svg>
-                `
-            },
-            {
-                id: 5,
-                shortTitle: "Pengujian",
-                enTitle: "Testing",
-                color: "#F59E0B", // Amber
-                bgBadge: "bg-amber-100 text-amber-700",
-                tagline: "Mencari bug/error dan memastikan semua fitur berjalan sempurna.",
-                description: "Sebelum aplikasi dipakai oleh pengguna umum, tim <strong>Quality Assurance (QA) / Tester</strong> melakukan berbagai skenario pengujian untuk menemukan celah keamanan, kesalahan perhitungan, atau tampilan yang rusak. Jika ditemukan <em>bug</em>, aplikasi dikembalikan ke programmer untuk diperbaiki.",
-                activities: [
-                    "Black-Box Testing: Menguji input & output setiap tombol dan formulir.",
-                    "Usability Testing: Memastikan aplikasi mudah dipahami pengguna awam.",
-                    "Security & Load Testing: Menguji ketahanan aplikasi saat diakses ratusan orang bersamaan.",
-                    "UAT (User Acceptance Testing): Pengujian langsung oleh perwakilan klien."
-                ],
-                analogyTitle: "Inspeksi Bangunan & Uji Coba Kran Air/Listrik",
-                analogyText: "Sebelum rumah ditempati, pemilik rumah mengecek apakah ada atap bocor saat hujan, apakah keran air mengalir lancar, dan memastikan sakelar lampu tidak konslet.",
-                schoolCase: "QA Tester mencoba memesan makanan dengan saldo Rp 0 (memastikan sistem menolak), mencoba klik tombol bayar 2 kali cepat, dan meminta 10 siswa mencoba aplikasi sebelum dirilis resmi.",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#FFFBEB"/>
-                        <path d="M120 26L172 48V85C172 115 149 134 120 142C91 134 68 115 68 85V48L120 26Z" fill="#F59E0B"/>
-                        <path d="M98 84L113 99L144 68" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                `
-            },
-            {
-                id: 6,
-                shortTitle: "Penerapan / Rilis",
-                enTitle: "Deployment",
-                color: "#EC4899", // Pink
-                bgBadge: "bg-pink-100 text-pink-700",
-                tagline: "Meluncurkan aplikasi ke server publik agar siap digunakan pengguna.",
-                description: "Setelah dinyatakan lolos pengujian dan bebas dari error fatal, aplikasi diunggah (<em>deploy</em>) ke server produksi, Google Play Store, atau App Store. Pada tahap ini juga dilakukan pelatihan singkat serta pemberian buku panduan penggunaan kepada pengguna.",
-                activities: [
-                    "Mengunggah file aplikasi ke Cloud Server / Hosting / Play Store.",
-                    "Migrasi data awal ke database produksi.",
-                    "Sosialisasi & pelatihan cara penggunaan kepada pengguna.",
-                    "Aplikasi resmi digunakan dalam kegiatan sehari-hari (Go-Live)."
-                ],
-                analogyTitle: "Serah Terima Kunci Rumah & Acara Syukuran Pindahan",
-                analogyText: "Rumah sudah 100% siap huni! Kontraktor menyerahkan kunci kepada pemilik rumah, dan keluarga mulai pindahan serta menempati rumah baru tersebut.",
-                schoolCase: "Aplikasi Kantin Digital resmi diluncurkan saat upacara Senin! Siswa mengunduh aplikasi, dan ibu kantin mulai menerima pesanan digital pada jam istirahat pertama.",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#FDF2F8"/>
-                        <!-- Rocket SVG -->
-                        <path d="M120 28C120 28 148 52 148 92H92C92 52 120 28 120 28Z" fill="#EC4899"/>
-                        <circle cx="120" cy="68" r="10" fill="white"/>
-                        <path d="M92 80L74 102H92V80Z" fill="#BE185D"/>
-                        <path d="M148 80L166 102H148V80Z" fill="#BE185D"/>
-                        <path d="M108 96L120 128L132 96H108Z" fill="#F59E0B"/>
-                    </svg>
-                `
-            },
-            {
-                id: 7,
-                shortTitle: "Pemeliharaan",
-                enTitle: "Maintenance",
-                color: "#6366F1", // Indigo
-                bgBadge: "bg-indigo-100 text-indigo-700",
-                tagline: "Merawat sistem, memperbaiki bug baru, dan memperbarui fitur.",
-                description: "Pekerjaan tim IT tidak berhenti setelah aplikasi dirilis! Selama digunakan, pasti muncul laporan <em>bug</em> kecil dari pengguna, kebutuhan pembaruan keamanan, atau permintaan fitur baru seiring berkembangnya zaman. Tahap ini membuat siklus SDLC terus berputar.",
-                activities: [
-                    "Memantau performa server agar tidak lambat atau down.",
-                    "Memperbaiki bug yang dilaporkan pengguna setelah rilis (Patching).",
-                    "Melakukan backup data secara berkala.",
-                    "Menambahkan fitur-fitur baru sesuai masukan pengguna (Update Versi)."
-                ],
-                analogyTitle: "Merawat Rumah, Mengecat Ulang & Renovasi Kecil",
-                analogyText: "Setelah ditinggali setahun, cat tembok yang pudar dicat ulang, keran yang rusak diganti, atau menambah kanopi teras sesuai kebutuhan penghuni rumah.",
-                schoolCase: "Setelah 3 bulan berjalan, siswa mengusulkan fitur <strong>'Rating & Ulasan Makanan'</strong> dan fitur <strong>'Promo Jumat Berkah'</strong>. Tim IT kembali merencanakan pembaruan aplikasi versi 2.0!",
-                svgIllustration: `
-                    <svg viewBox="0 0 240 160" class="w-full h-36 mx-auto">
-                        <rect width="240" height="160" rx="16" fill="#EEF2FF"/>
-                        <circle cx="120" cy="80" r="42" fill="none" stroke="#6366F1" stroke-width="8" stroke-dasharray="14 8"/>
-                        <circle cx="120" cy="80" r="22" fill="#4F46E5"/>
-                        <path d="M112 80H128M120 72V88" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-                    </svg>
-                `
+            XII: {
+                title: "Materi Informatika Kelas XII (Fase F+)",
+                badge: "Kelas XII • Persiapan Kuliah & Industri IT",
+                chapters: [
+                    { bab: 1, title: "Informatika & Masa Depan Digital (Slot Bab 1)", subtopics: ["Siap diisi file kelasXIIbab1.html"], file: "kelasXIIbab1.html", status: "slot", icon: "rocket", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 1 Kelas XII." },
+                    { bab: 2, title: "Berpikir Komputasional Lanjut (Slot Bab 2)", subtopics: ["Siap diisi file kelasXIIbab2.html"], file: "kelasXIIbab2.html", status: "slot", icon: "cpu", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 2 Kelas XII." },
+                    { bab: 3, title: "Data Science & Big Data (Slot Bab 3)", subtopics: ["Siap diisi file kelasXIIbab3.html"], file: "kelasXIIbab3.html", status: "slot", icon: "pie-chart", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 3 Kelas XII." },
+                    { bab: 4, title: "Internet of Things / IoT (Slot Bab 4)", subtopics: ["Siap diisi file kelasXIIbab4.html"], file: "kelasXIIbab4.html", status: "slot", icon: "wifi", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 4 Kelas XII." },
+                    { bab: 5, title: "Cloud Computing & DevOps (Slot Bab 5)", subtopics: ["Siap diisi file kelasXIIbab5.html"], file: "kelasXIIbab5.html", status: "slot", icon: "cloud", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 5 Kelas XII." },
+                    { bab: 6, title: "Etika AI & Hukum Siber (Slot Bab 6)", subtopics: ["Siap diisi file kelasXIIbab6.html"], file: "kelasXIIbab6.html", status: "slot", icon: "scale", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 6 Kelas XII." },
+                    { bab: 7, title: "Portofolio & Proyek Akhir (Slot Bab 7)", subtopics: ["Siap diisi file kelasXIIbab7.html"], file: "kelasXIIbab7.html", status: "slot", icon: "briefcase", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 7 Kelas XII." },
+                    { bab: 8, title: "Evaluasi Komprehensif SMA (Slot Bab 8)", subtopics: ["Siap diisi file kelasXIIbab8.html"], file: "kelasXIIbab8.html", status: "slot", icon: "check-circle", color: "slate", desc: "Slot tersedia untuk penambahan materi Bab 8 Kelas XII." }
+                ]
             }
-        ];
+        };
 
-        let currentStageIndex = 0;
-        let simulationInterval = null;
+        let activeClass = 'X';
 
-        // 2. RENDER DIAGRAM SIKLUS SVG (7 NODE MELINGKAR)
-        function renderCycleNodes() {
-            const container = document.getElementById('svg-nodes-container');
-            container.innerHTML = '';
-            const centerX = 200;
-            const centerY = 200;
-            const radius = 138;
-            const total = sdlcStages.length;
+        function switchClass(kelas) {
+            activeClass = kelas;
+            const data = curriculumData[kelas];
 
-            sdlcStages.forEach((stage, idx) => {
-                // Sudut mulai dari atas (-90 derajat) searah jarum jam
-                const angleDeg = -90 + (idx * (360 / total));
-                const angleRad = (angleDeg * Math.PI) / 180;
-                const x = centerX + radius * Math.cos(angleRad);
-                const y = centerY + radius * Math.sin(angleRad);
-
-                const isActive = idx === currentStageIndex;
-                const nodeRadius = isActive ? 29 : 23;
-
-                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                g.setAttribute('class', 'cursor-pointer transition-all duration-300');
-                g.setAttribute('onclick', `selectStage(${idx}, true)`);
-
-                // Lingkaran Luar Aktif (Halo)
-                if (isActive) {
-                    const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    halo.setAttribute('cx', x);
-                    halo.setAttribute('cy', y);
-                    halo.setAttribute('r', nodeRadius + 7);
-                    halo.setAttribute('fill', stage.color);
-                    halo.setAttribute('opacity', '0.28');
-                    g.appendChild(halo);
-                }
-
-                // Lingkaran Utama Node
-                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                circle.setAttribute('cx', x);
-                circle.setAttribute('cy', y);
-                circle.setAttribute('r', nodeRadius);
-                circle.setAttribute('fill', isActive ? stage.color : '#1E293B');
-                circle.setAttribute('stroke', isActive ? '#FFFFFF' : stage.color);
-                circle.setAttribute('stroke-width', isActive ? '3.5' : '2.5');
-                g.appendChild(circle);
-
-                // Nomor Tahap di dalam Node
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', x);
-                text.setAttribute('y', y + 5);
-                text.setAttribute('text-anchor', 'middle');
-                text.setAttribute('fill', '#FFFFFF');
-                text.setAttribute('font-size', isActive ? '16' : '14');
-                text.setAttribute('font-weight', 'bold');
-                text.setAttribute('font-family', 'sans-serif');
-                text.textContent = stage.id;
-                g.appendChild(text);
-
-                container.appendChild(g);
-            });
-
-            // Update Teks Pusat Diagram
-            const activeStage = sdlcStages[currentStageIndex];
-            document.getElementById('center-stage-num').textContent = `TAHAP ${activeStage.id}`;
-            document.getElementById('center-stage-num').setAttribute('fill', activeStage.color);
-            document.getElementById('center-stage-title').textContent = activeStage.shortTitle;
-            document.getElementById('center-stage-sub').textContent = `(${activeStage.enTitle})`;
-
-            // Update Pill Buttons
-            document.querySelectorAll('.stage-pill').forEach((btn, i) => {
-                if (i === currentStageIndex) {
-                    btn.className = 'stage-pill px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow transition cursor-pointer';
+            // Update tombol navigasi atas & hero tab
+            ['X', 'XI', 'XII'].forEach(k => {
+                const navBtn = document.getElementById(`nav-btn-${k}`);
+                const heroTab = document.getElementById(`hero-tab-${k}`);
+                if (k === kelas) {
+                    navBtn.className = 'class-nav-btn px-4 py-1.5 rounded-xl text-sm font-bold bg-indigo-600 text-white shadow-sm transition cursor-pointer';
+                    heroTab.className = 'hero-tab px-5 sm:px-7 py-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-200 transition cursor-pointer';
                 } else {
-                    btn.className = 'stage-pill px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-700/70 text-slate-300 hover:bg-slate-700 transition cursor-pointer';
+                    navBtn.className = 'class-nav-btn px-4 py-1.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition cursor-pointer';
+                    heroTab.className = 'hero-tab px-5 sm:px-7 py-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition cursor-pointer';
                 }
             });
 
-            // Update Step Indicator
-            document.getElementById('step-indicator').textContent = `${activeStage.id} / 7`;
-        }
+            document.getElementById('class-badge').textContent = data.badge;
+            document.getElementById('class-heading').textContent = data.title;
 
-        // 3. RENDER KONTEN DETAIL TAHAPAN DI PANEL KANAN
-        function renderStageDetail() {
-            const stage = sdlcStages[currentStageIndex];
-            const container = document.getElementById('stage-detail-container');
-            
-            // Reset animasi masuk
-            container.classList.remove('stage-content-enter');
-            void container.offsetWidth; // trigger reflow
-            container.classList.add('stage-content-enter');
-
-            const activitiesHTML = stage.activities.map(act => `
-                <li class="flex items-start gap-2.5 text-sm text-slate-700">
-                    <span class="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">✓</span>
-                    <span>${act}</span>
-                </li>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
-                    <div>
-                        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold ${stage.bgBadge} mb-2">
-                            Tahap ${stage.id} dari 7 • ${stage.enTitle}
-                        </span>
-                        <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
-                            ${stage.shortTitle}
-                        </h3>
-                        <p class="text-slate-500 text-sm font-medium mt-1">${stage.tagline}</p>
-                    </div>
-                    <div class="w-full sm:w-44 shrink-0">
-                        ${stage.svgIllustration}
-                    </div>
-                </div>
-
-                <!-- Penjelasan Teknis -->
-                <div class="mt-5">
-                    <h4 class="font-display font-bold text-sm uppercase tracking-wider text-slate-400 mb-2">Penjelasan & Aktivitas Utama</h4>
-                    <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-4">
-                        ${stage.description}
-                    </p>
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
-                        ${activitiesHTML}
-                    </ul>
-                </div>
-
-                <!-- Analogi & Studi Kasus Sekolah -->
-                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Analogi Sehari-hari -->
-                    <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80">
-                        <div class="flex items-center gap-2 text-amber-800 font-bold text-xs uppercase tracking-wider mb-1.5">
-                            <i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i>
-                            Analogi Kegiatan Biasa
-                        </div>
-                        <h5 class="font-bold text-slate-900 text-sm mb-1">${stage.analogyTitle}</h5>
-                        <p class="text-slate-700 text-xs sm:text-sm leading-relaxed">${stage.analogyText}</p>
-                    </div>
-
-                    <!-- Penerapan Nyata Aplikasi Sekolah -->
-                    <div class="p-4 rounded-2xl bg-indigo-50/80 border border-indigo-200/80">
-                        <div class="flex items-center gap-2 text-indigo-800 font-bold text-xs uppercase tracking-wider mb-1.5">
-                            <i data-lucide="smartphone" class="w-4 h-4 text-indigo-600"></i>
-                            Studi Kasus: Aplikasi Kantin SMA
-                        </div>
-                        <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mt-1">${stage.schoolCase}</p>
-                    </div>
-                </div>
-            `;
-
-            lucide.createIcons();
-        }
-
-        // Fungsi Navigasi Tahapan
-        function selectStage(index, stopSim = false) {
-            if (stopSim && simulationInterval) {
-                stopSimulation();
-            }
-            currentStageIndex = index;
-            renderCycleNodes();
-            renderStageDetail();
-        }
-
-        function nextStage() {
-            const nextIdx = (currentStageIndex + 1) % sdlcStages.length;
-            selectStage(nextIdx, false);
-        }
-
-        function prevStage() {
-            const prevIdx = (currentStageIndex - 1 + sdlcStages.length) % sdlcStages.length;
-            selectStage(prevIdx, true);
-        }
-
-        // Kontrol Putar Simulasi Otomatis
-        function toggleSimulation() {
-            if (simulationInterval) {
-                stopSimulation();
-            } else {
-                startSimulation();
-            }
-        }
-
-        function startSimulation() {
-            const btn = document.getElementById('btn-play-sim');
-            const text = document.getElementById('play-text');
-            const icon = document.getElementById('play-icon');
-
-            btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
-            btn.classList.add('bg-rose-500', 'hover:bg-rose-600', 'text-white');
-            text.textContent = 'Hentikan Simulasi';
-            icon.setAttribute('data-lucide', 'pause');
-            lucide.createIcons();
-
-            nextStage();
-            simulationInterval = setInterval(() => {
-                nextStage();
-            }, 3200);
-        }
-
-        function stopSimulation() {
-            clearInterval(simulationInterval);
-            simulationInterval = null;
-
-            const btn = document.getElementById('btn-play-sim');
-            const text = document.getElementById('play-text');
-            const icon = document.getElementById('play-icon');
-
-            btn.classList.remove('bg-rose-500', 'hover:bg-rose-600', 'text-white');
-            btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600', 'text-slate-950');
-            text.textContent = 'Putar Simulasi Alur';
-            icon.setAttribute('data-lucide', 'play');
-            lucide.createIcons();
-        }
-
-        // 4. DATA & LOGIKA KUIS EVALUASI SISWA
-        const quizQuestions = [
-            {
-                question: "Tim pengembang aplikasi sekolah sedang mewawancarai guru BK dan siswa untuk mengetahui fitur apa saja yang dibutuhkan pada Aplikasi Konseling Online. Aktivitas ini termasuk dalam tahap...",
-                options: [
-                    "Perancangan Sistem (Design)",
-                    "Analisis Kebutuhan (Requirement Analysis)",
-                    "Pengujian (Testing)",
-                    "Penerapan (Deployment)"
-                ],
-                correct: 1,
-                explanation: "Wawancara dan pengumpulan kebutuhan fitur dari calon pengguna merupakan aktivitas utama pada tahap Analisis Kebutuhan (Analysis)."
-            },
-            {
-                question: "Seorang anggota tim membuat sketsa tampilan aplikasi (Wireframe/UI) menggunakan Figma dan merancang hubungan antar tabel database menggunakan ERD. Tahapan SDLC yang sedang dikerjakan adalah...",
-                options: [
-                    "Perencanaan (Planning)",
-                    "Pengembangan (Development)",
-                    "Perancangan Sistem (Design)",
-                    "Pemeliharaan (Maintenance)"
-                ],
-                correct: 2,
-                explanation: "Pembuatan desain antarmuka (UI/UX), Flowchart, dan struktur database (ERD) adalah inti dari tahap Perancangan Sistem (Design)."
-            },
-            {
-                question: "Mengapa tahap Pengujian (Testing) sangat penting dilakukan sebelum aplikasi dirilis ke publik?",
-                options: [
-                    "Untuk menghitung gaji programmer yang bekerja",
-                    "Untuk menemukan dan memperbaiki bug/error agar aplikasi berjalan aman dan akurat",
-                    "Untuk menentukan warna logo aplikasi",
-                    "Untuk menghapus database lama pengguna"
-                ],
-                correct: 1,
-                explanation: "Testing memastikan tidak ada kesalahan logika, bug, atau celah keamanan sebelum aplikasi digunakan oleh pengguna secara luas."
-            },
-            {
-                question: "Analogi 'Tukang bangunan mulai menyusun batu bata, memasang atap, dan mengecat dinding berdasarkan gambar denah arsitek' paling tepat menggambarkan tahap...",
-                options: [
-                    "Perencanaan (Planning)",
-                    "Analisis Kebutuhan (Analysis)",
-                    "Pengembangan / Pengodean (Development)",
-                    "Penerapan (Deployment)"
-                ],
-                correct: 2,
-                explanation: "Menerjemahkan cetak biru/desain menjadi produk fisik (menulis kode program) adalah tahap Pengembangan (Development / Coding)."
-            },
-            {
-                question: "Setelah 6 bulan Aplikasi Perpustakaan Digital digunakan oleh siswa, muncul laporan bahwa fitur pencarian buku terasa lambat dan sekolah ingin menambahkan fitur 'Peminjaman E-Book'. Tim IT pun memperbarui sistem. Fase ini disebut...",
-                options: [
-                    "Pemeliharaan (Maintenance)",
-                    "Perancangan (Design)",
-                    "Pengujian (Testing)",
-                    "Perencanaan Awal (Planning)"
-                ],
-                correct: 0,
-                explanation: "Optimalisasi performa dan penambahan fitur baru setelah aplikasi resmi berjalan termasuk dalam tahap Pemeliharaan (Maintenance)."
-            },
-            {
-                question: "Sebuah perusahaan startup ingin membuat aplikasi media sosial baru yang fiturnya sering berubah mengikuti tren anak muda dengan cepat. Model SDLC manakah yang paling tepat mereka gunakan?",
-                options: [
-                    "Model Waterfall karena tidak boleh ada perubahan di tengah jalan",
-                    "Model Agile karena bersifat iteratif, fleksibel, dan rilis bertahap (Sprint)",
-                    "Model Tradisional tanpa tahap pengujian",
-                    "Model Linear tanpa melibatkan pengguna"
-                ],
-                correct: 1,
-                explanation: "Model Agile sangat cocok untuk proyek yang dinamis dan membutuhkan adaptasi cepat terhadap perubahan kebutuhan pengguna."
-            }
-        ];
-
-        function renderQuiz() {
-            const container = document.getElementById('quiz-container');
-            container.innerHTML = quizQuestions.map((q, qIdx) => {
-                const optionsHTML = q.options.map((opt, oIdx) => `
-                    <label class="quiz-option flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 cursor-pointer transition" data-q="${qIdx}" data-o="${oIdx}">
-                        <input type="radio" name="question-${qIdx}" value="${oIdx}" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                        <span class="text-sm sm:text-base text-slate-700 font-medium">${opt}</span>
-                    </label>
+            const grid = document.getElementById('chapters-grid');
+            grid.innerHTML = data.chapters.map(ch => {
+                const isReady = ch.status === 'ready';
+                const subList = ch.subtopics.map(sub => `
+                    <li class="flex items-start gap-2 text-xs text-slate-600">
+                        <span class="text-indigo-500 font-bold">•</span>
+                        <span>${sub}</span>
+                    </li>
                 `).join('');
 
-                return `
-                    <div class="quiz-item" id="quiz-item-${qIdx}">
-                        <div class="flex items-start gap-3 mb-3.5">
-                            <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">
-                                ${qIdx + 1}
-                            </span>
-                            <h4 class="font-display font-bold text-slate-900 text-base sm:text-lg leading-snug">
-                                ${q.question}
-                            </h4>
-                        </div>
-                        <div class="space-y-2.5 pl-0 sm:pl-10">
-                            ${optionsHTML}
-                        </div>
-                        <div id="feedback-${qIdx}" class="hidden mt-3 ml-0 sm:ml-10 p-3.5 rounded-xl text-sm"></div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function submitQuiz() {
-            let correctCount = 0;
-            let unanswered = 0;
-
-            quizQuestions.forEach((q, qIdx) => {
-                const selected = document.querySelector(`input[name="question-${qIdx}"]:checked`);
-                const feedbackBox = document.getElementById(`feedback-${qIdx}`);
-                const optionLabels = document.querySelectorAll(`.quiz-option[data-q="${qIdx}"]`);
-
-                // Reset styling opsi
-                optionLabels.forEach(lbl => {
-                    lbl.classList.remove('border-emerald-500', 'bg-emerald-50', 'border-rose-500', 'bg-rose-50');
-                });
-
-                if (!selected) {
-                    unanswered++;
-                    feedbackBox.className = 'mt-3 ml-0 sm:ml-10 p-3.5 rounded-xl text-sm bg-amber-50 text-amber-800 border border-amber-200 block';
-                    feedbackBox.innerHTML = `<strong>Belum dijawab!</strong> Jawaban yang benar adalah: <em>${q.options[q.correct]}</em>. ${q.explanation}`;
-                    optionLabels[q.correct].classList.add('border-emerald-500', 'bg-emerald-50');
-                    return;
-                }
-
-                const userAnswer = parseInt(selected.value);
-                if (userAnswer === q.correct) {
-                    correctCount++;
-                    optionLabels[userAnswer].classList.add('border-emerald-500', 'bg-emerald-50');
-                    feedbackBox.className = 'mt-3 ml-0 sm:ml-10 p-3.5 rounded-xl text-sm bg-emerald-50 text-emerald-900 border border-emerald-200 block';
-                    feedbackBox.innerHTML = `<strong>Benar!</strong> ${q.explanation}`;
+                if (isReady) {
+                    return `
+                        <a href="${ch.file}" class="card-fade group bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm hover:shadow-xl hover:border-indigo-300 transition-all flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-extrabold tracking-wide uppercase">
+                                        Bab ${ch.bab}
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tersedia
+                                    </span>
+                                </div>
+                                <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mb-4 group-hover:scale-105 transition-transform shadow-md shadow-indigo-100">
+                                    <i data-lucide="${ch.icon}" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition mb-2">
+                                    ${ch.title}
+                                </h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                    ${ch.desc}
+                                </p>
+                                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 mb-5">
+                                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">Sub-Materi:</span>
+                                    <ul class="space-y-1">${subList}</ul>
+                                </div>
+                            </div>
+                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-sm font-bold text-indigo-600">
+                                <span>Buka Modul (${ch.file})</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </a>
+                    `;
                 } else {
-                    optionLabels[userAnswer].classList.add('border-rose-500', 'bg-rose-50');
-                    optionLabels[q.correct].classList.add('border-emerald-500', 'bg-emerald-50');
-                    feedbackBox.className = 'mt-3 ml-0 sm:ml-10 p-3.5 rounded-xl text-sm bg-rose-50 text-rose-900 border border-rose-200 block';
-                    feedbackBox.innerHTML = `<strong>Kurang Tepat.</strong> ${q.explanation}`;
+                    return `
+                        <div class="card-fade bg-slate-50/80 rounded-3xl border border-dashed border-slate-300 p-6 flex flex-col justify-between opacity-80">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-slate-200/80 text-slate-600 text-xs font-bold uppercase">
+                                        Bab ${ch.bab}
+                                    </span>
+                                    <span class="px-2.5 py-1 rounded-full bg-slate-200/70 text-slate-500 text-xs font-medium">
+                                        Slot Kosong
+                                    </span>
+                                </div>
+                                <div class="w-11 h-11 rounded-2xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
+                                    <i data-lucide="${ch.icon}" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="font-display text-lg font-bold text-slate-700 mb-2">${ch.title}</h3>
+                                <p class="text-slate-500 text-xs leading-relaxed mb-4">${ch.desc}</p>
+                            </div>
+                            <div class="pt-3 border-t border-slate-200/70 flex items-center justify-between text-xs font-mono text-slate-400">
+                                <span>Target: ${ch.file}</span>
+                                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    `;
                 }
-            });
+            }).join('');
 
-            const score = Math.round((correctCount / quizQuestions.length) * 100);
-            const resultBox = document.getElementById('quiz-result-box');
-            resultBox.classList.remove('hidden');
-
-            document.getElementById('quiz-score-title').textContent = `Skor Akhir: ${score} / 100`;
-            document.getElementById('quiz-correct-count').textContent = `${correctCount}/${quizQuestions.length}`;
-
-            let msg = "";
-            if (score === 100) {
-                msg = "Sempurna! Kamu siap menjadi System Analyst & Software Engineer masa depan!";
-            } else if (score >= 70) {
-                msg = "Bagus sekali! Pemahamanmu tentang tahapan SDLC sudah sangat kuat.";
-            } else {
-                msg = "Terus semangat! Coba baca kembali simulasi 7 tahapan SDLC di atas lalu ulangi kuisnya.";
-            }
-            document.getElementById('quiz-score-feedback').textContent = msg;
-            document.getElementById('quiz-status-text').textContent = unanswered > 0 ? `Catatan: Ada ${unanswered} soal yang belum kamu pilih.` : "Semua soal telah diperiksa!";
-
-            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function resetQuiz() {
-            renderQuiz();
-            document.getElementById('quiz-result-box').classList.add('hidden');
-            document.getElementById('quiz-status-text').textContent = "Pilih satu jawaban terbaik pada setiap nomor.";
-        }
-
-        // 5. TOGGLE MENU MOBILE & INISIALISASI HALAMAN
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-
-        // Tutup menu mobile saat link diklik
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.add('hidden');
-            });
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderCycleNodes();
-            renderStageDetail();
-            renderQuiz();
             lucide.createIcons();
+        }
+
+        function toggleStructureModal() {
+            const modal = document.getElementById('structure-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Cek parameter URL ?kelas=XI jika kembali dari halaman bab
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const k = params.get('kelas');
+            if (k && ['X', 'XI', 'XII'].includes(k.toUpperCase())) {
+                switchClass(k.toUpperCase());
+            } else {
+                switchClass('X');
+            }
         });
     </script>
 </body>
